@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://blrnmecs4fxqp"]
+
+[ext_resource type="Script" uid="uid://82j1n8gtltmb" path="res://Scripts/editor_rooms.gd" id="1_yfuoc"]
+[ext_resource type="TileSet" uid="uid://bvwfnvg85aece" path="res://Components/TileSets/placeables_tile_set.tres" id="2_akog7"]
+[ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="3_l0fpw"]
+[ext_resource type="TileSet" uid="uid://fecy5s7m2bq8" path="res://Components/TileSets/hex_tile_set.tres" id="4_xkq1w"]
+
+[node name="Floor" type="Node2D" unique_id=1203826954]
+script = ExtResource("1_yfuoc")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=615386656]
+zoom = Vector2(0.5, 0.5)
+
+[node name="Placeables" type="TileMapLayer" parent="." unique_id=1667126081]
+z_index = 1
+y_sort_enabled = true
+tile_set = ExtResource("2_akog7")
+script = ExtResource("3_l0fpw")
+metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
+
+[node name="Walls" type="TileMapLayer" parent="." unique_id=1915870279]
+y_sort_enabled = true
+tile_set = ExtResource("4_xkq1w")
+script = ExtResource("3_l0fpw")
+metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=958737604]
+y_sort_enabled = true
+tile_set = ExtResource("4_xkq1w")
+script = ExtResource("3_l0fpw")
+metadata/_custom_type_script = "uid://buj6ft1vvdf2f"

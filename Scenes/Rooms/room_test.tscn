@@ -1,0 +1,22 @@
+[gd_scene format=4 uid="uid://cnwv0lqiq42hv"]
+
+[ext_resource type="TileSet" uid="uid://fecy5s7m2bq8" path="res://Components/TileSets/hex_tile_set.tres" id="1_7rgcj"]
+[ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="2_sxkhd"]
+[ext_resource type="TileSet" uid="uid://bvwfnvg85aece" path="res://Components/TileSets/placeables_tile_set.tres" id="3_sxkhd"]
+
+[node name="Node2D" type="Node2D" unique_id=1166493304]
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=676870152]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAAAAAAACAAAAAAD/////AAACAAAAAAD//wAAAAACAAAAAAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAAAAAACAAAAAAAAAP//AAACAAAAAAABAP//AAACAAEAAAABAP7/AAACAAEAAAAAAP7/AAADAAAAAAD///7/AAACAAEAAAD+////AAACAAEAAAAAAAIAAAABAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAAAAAMAAAAAAAAAAAABAAIAAAAAAAAAAAD+/wEAAAACAAAAAAD+/wIAAAACAAAAAAD+/wMAAAACAAAAAAD//wQAAAACAAAAAAAAAAQAAAACAAAAAAABAAQAAAACAAAAAAABAAMAAAACAAAAAAACAAIAAAACAAAAAAABAAEAAAACAAAAAAD+/wAAAAAAAAEAAAD9/wEAAAAAAAEAAAACAAAAAAAAAAEAAAACAAEAAAAAAAEAAAD9/wIAAAABAAEAAAADAAIAAAABAAEAAAAAAAYAAAADAAAAAAD//wUAAAACAAAAAAAAAAUAAAACAAAAAAA=")
+tile_set = ExtResource("1_7rgcj")
+script = ExtResource("2_sxkhd")
+metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
+
+[node name="Placeables" type="TileMapLayer" parent="." unique_id=1951085929]
+z_index = 1
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAP7/AgAAAAEAAAAAAAYAAgACAAEAAAA=")
+tile_set = ExtResource("3_sxkhd")
+script = ExtResource("2_sxkhd")
+metadata/_custom_type_script = "uid://buj6ft1vvdf2f"

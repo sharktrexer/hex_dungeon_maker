@@ -1,0 +1,51 @@
+[gd_resource type="TileSet" format=3 uid="uid://fecy5s7m2bq8"]
+
+[ext_resource type="Texture2D" uid="uid://b7yya0gmvo68u" path="res://Graphics/top_down_hex_tilseset.png" id="1_uwta7"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wi0rs"]
+resource_name = "Hex Geometry"
+texture = ExtResource("1_uwta7")
+margins = Vector2i(1, 1)
+separation = Vector2i(2, 2)
+texture_region_size = Vector2i(96, 131)
+0:2/0 = 0
+0:2/0/texture_origin = Vector2i(0, 21)
+1:2/0 = 0
+1:2/0/texture_origin = Vector2i(0, 21)
+2:2/0 = 0
+2:2/0/texture_origin = Vector2i(0, 21)
+3:2/0 = 0
+3:2/0/texture_origin = Vector2i(0, 21)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 21)
+1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, 21)
+2:0/0 = 0
+2:0/0/texture_origin = Vector2i(0, 21)
+4:2/0 = 0
+4:2/0/texture_origin = Vector2i(0, 21)
+3:0/0 = 0
+3:0/0/texture_origin = Vector2i(0, 21)
+1:1/0 = 0
+1:1/0/texture_origin = Vector2i(0, 21)
+0:1/0 = 0
+0:1/0/texture_origin = Vector2i(0, 21)
+2:1/0 = 0
+2:1/0/texture_origin = Vector2i(0, 21)
+5:2/0 = 0
+5:2/0/texture_origin = Vector2i(0, 21)
+4:0/0 = 0
+4:0/0/texture_origin = Vector2i(0, 21)
+5:0/0 = 0
+5:0/0/texture_origin = Vector2i(0, 21)
+6:0/0 = 0
+6:0/0/texture_origin = Vector2i(0, 21)
+7:0/0 = 0
+7:0/0/texture_origin = Vector2i(0, 21)
+8:0/0 = 0
+8:0/0/texture_origin = Vector2i(0, 21)
+
+[resource]
+tile_shape = 3
+tile_size = Vector2i(96, 88)
+sources/0 = SubResource("TileSetAtlasSource_wi0rs")
