@@ -4,8 +4,9 @@
 [ext_resource type="TileSet" uid="uid://bvwfnvg85aece" path="res://Components/TileSets/placeables_tile_set.tres" id="2_akog7"]
 [ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="3_l0fpw"]
 [ext_resource type="TileSet" uid="uid://fecy5s7m2bq8" path="res://Components/TileSets/hex_tile_set.tres" id="4_xkq1w"]
+[ext_resource type="Texture2D" uid="uid://0462ner2ujw6" path="res://icon.svg" id="5_akog7"]
 
-[node name="Floor" type="Node2D" unique_id=1203826954]
+[node name="EditingSpace" type="Node2D" unique_id=1203826954]
 script = ExtResource("1_yfuoc")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=615386656]
@@ -29,3 +30,52 @@ y_sort_enabled = true
 tile_set = ExtResource("4_xkq1w")
 script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
+
+[node name="SaveNLoad" type="Control" parent="." unique_id=1771708833]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="SaveNLoad" unique_id=1980180392]
+layout_mode = 0
+offset_left = 834.0
+offset_top = 491.00003
+offset_right = 902.8377
+offset_bottom = 522.8042
+scale = Vector2(4.670817, 4.97408)
+text = "SAVE"
+
+[node name="Controllers" type="Node2D" parent="." unique_id=1811062924]
+position = Vector2(834, 491.00003)
+scale = Vector2(4.670817, 4.97408)
+
+[node name="GamepadInput" type="Node2D" parent="Controllers" unique_id=907399307]
+
+[node name="TileMenu" type="Control" parent="." unique_id=154120664]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TileList" type="ItemList" parent="TileMenu" unique_id=754280110]
+layout_mode = 0
+offset_left = -1152.0
+offset_top = -640.0
+offset_right = -669.0
+offset_bottom = 642.0
+auto_width = true
+auto_height = true
+text_overrun_behavior = 1
+item_count = 4
+max_columns = 3
+same_column_width = true
+icon_mode = 0
+item_0/text = "LOL"
+item_0/icon = ExtResource("5_akog7")
+item_1/text = "XD"
+item_1/icon = ExtResource("5_akog7")
+item_2/text = "wowzerrrrrrrrrrrrrrrrrrrrrrrr"
+item_2/icon = ExtResource("5_akog7")
+item_3/text = "butt"
+item_3/icon = ExtResource("5_akog7")

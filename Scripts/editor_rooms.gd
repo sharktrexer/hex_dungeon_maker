@@ -3,7 +3,6 @@ class_name RoomEditor
 
 
 
-
 #region STOLEN
 const LAYER_NAMES :Array[String] = [
 	'Ground',
@@ -21,14 +20,25 @@ func grab_floor_layers() -> Dictionary[String, HexagonTileMapLayer]:
 	for layer_name in grab_layer_names():
 		layers[layer_name] = find_child(layer_name)
 
+		if layers[layer_name] == null:
+			push_error('Could not find layer_name {0} inside Node {1} '.format([layer_name, self]))
+
 	return layers
 
 #endregion
 
 #region Editing
 
+# input stuff
 const ACTION_TILE_PAINT = 'tile_paint'
 const ACTION_TILE_ERASE = 'tile_remove'
+
+# atlas stuff
+const TILE_DATA_KEY_NAME = 'tile_name'
+
+const TILE_SOURCE_ID = 0
+
+@onready var tile_list:ItemList = $TileMenu/TileList
 
 enum LayerName {
 	Ground,
@@ -36,48 +46,110 @@ enum LayerName {
 	Placeables
 }
 
-class SelectedTile:
+class AtlasTile:
 	var atlas_coord: Vector2i = Vector2i.ZERO
-	var layer: HexagonTileMapLayer
+	var layer: LayerName
+	var id_alt := 0
+	var id_source := 0
 
-var selected_tile: SelectedTile = SelectedTile.new()
+
+var selected_tile: AtlasTile = AtlasTile.new()
+var is_painting = false
+var painting_layer: HexagonTileMapLayer
+
+var available_tiles: Array[AtlasTile] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
+	tile_list.clear()
+
 	floor_layers = grab_floor_layers()
 
-	selected_tile.layer = floor_layers[LAYER_NAMES[LayerName.Ground]]
+	grab_tiles()
+
+	_new_tile_selected(0)
+
+	tile_list.item_selected.connect(_new_tile_selected)
+
+func grab_tiles():
+
+	# in each layer
+	var layer_ind = -1
+	for key in floor_layers:
+		layer_ind += 1
+		if key == 'Walls':
+			continue
+
+		# get tileset source
+		var cur_layer := floor_layers[key]
+		var atlas_source: TileSetAtlasSource = cur_layer.tile_set.get_source(TILE_SOURCE_ID)
+		var atlas_tile_count := atlas_source.get_tiles_count()
+		var atlas_texture := atlas_source.texture
+		for tile_ind in range(0, atlas_tile_count):
+			var atlas_coord := atlas_source.get_tile_id(tile_ind)
+			
+			# get text display
+			var tile_data := atlas_source.get_tile_data(atlas_coord, TILE_SOURCE_ID)
+			var tile_name: String = tile_data.get_custom_data(TILE_DATA_KEY_NAME)
+
+			# get img
+			var tile_region := atlas_source.get_tile_texture_region(atlas_coord)
+			var tile_img := AtlasTexture.new()
+			tile_img.atlas = atlas_texture
+			tile_img.region = tile_region
+
+			tile_list.add_item(tile_name, tile_img)
+
+			var tile_info = AtlasTile.new()
+			tile_info.atlas_coord = atlas_coord
+			tile_info.layer = layer_ind as LayerName
+			available_tiles.append(tile_info)
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 
-	var mouse_to_map_pos := selected_tile.layer.local_to_map(selected_tile.layer.get_local_mouse_position())
+	var mouse_to_map_pos := get_mouse_pos_as_map()
 
-	if event.is_action_released(ACTION_TILE_PAINT):
+	if event.is_action_pressed(ACTION_TILE_PAINT):
 
-		paint_tile(selected_tile.layer, mouse_to_map_pos)
+		paint_tile(selected_tile, mouse_to_map_pos)
+		is_painting = true
 
-	if event.is_action_released(ACTION_TILE_ERASE):
+	if event.is_action_pressed(ACTION_TILE_ERASE):
 		
-		remove_tile(selected_tile.layer, mouse_to_map_pos)
-
-
-func paint_tile(layer:HexagonTileMapLayer, mouse_map_pos:Vector2i):
-
-	layer.set_cell(mouse_map_pos, 0, selected_tile.atlas_coord, 0)
-
-
-func remove_tile(layer:HexagonTileMapLayer, mouse_map_pos:Vector2i):
-
-	layer.erase_cell(mouse_map_pos)
+		remove_tile(mouse_to_map_pos)
+		is_painting = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var mouse_to_map_pos := selected_tile.layer.local_to_map(selected_tile.layer.get_local_mouse_position())
-	
-	if Input.is_action_pressed(ACTION_TILE_PAINT):
-		paint_tile(selected_tile.layer, mouse_to_map_pos)
 
-	if Input.is_action_pressed(ACTION_TILE_ERASE):
-		remove_tile(selected_tile.layer, mouse_to_map_pos)
+	var mouse_to_map_pos := get_mouse_pos_as_map()
+
+	if is_painting:
+		if Input.is_action_pressed(ACTION_TILE_PAINT) :
+			paint_tile(selected_tile, mouse_to_map_pos)
+
+		if Input.is_action_pressed(ACTION_TILE_ERASE):
+			remove_tile(mouse_to_map_pos)
+
+
+	if Input.is_action_just_released(ACTION_TILE_PAINT) or Input.is_action_just_released(ACTION_TILE_ERASE):
+		is_painting = false
+
+func get_mouse_pos_as_map() -> Vector2i:
+	return painting_layer.local_to_map(painting_layer.get_local_mouse_position())
+
+func _new_tile_selected(index:int):
+	selected_tile = available_tiles[index]
+	painting_layer = floor_layers[LAYER_NAMES[selected_tile.layer]]
+
+func paint_tile(tile:AtlasTile, mouse_map_pos:Vector2i):
+
+	painting_layer.set_cell(mouse_map_pos, tile.id_source, selected_tile.atlas_coord, tile.id_alt)
+
+
+func remove_tile(mouse_map_pos:Vector2i):
+
+	painting_layer.erase_cell(mouse_map_pos)
