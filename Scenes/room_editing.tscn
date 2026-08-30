@@ -32,6 +32,7 @@ script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
 
 [node name="SaveNLoad" type="Control" parent="." unique_id=1771708833]
+z_index = 100
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -53,6 +54,7 @@ scale = Vector2(4.670817, 4.97408)
 [node name="GamepadInput" type="Node2D" parent="Controllers" unique_id=907399307]
 
 [node name="TileMenu" type="Control" parent="." unique_id=154120664]
+z_index = 100
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0

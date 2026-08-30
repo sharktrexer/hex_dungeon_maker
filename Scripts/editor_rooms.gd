@@ -78,6 +78,7 @@ func grab_tiles():
 	var layer_ind = -1
 	for key in floor_layers:
 		layer_ind += 1
+		# walls has same tileset as ground 
 		if key == 'Walls':
 			continue
 
@@ -91,7 +92,10 @@ func grab_tiles():
 			
 			# get text display
 			var tile_data := atlas_source.get_tile_data(atlas_coord, TILE_SOURCE_ID)
-			var tile_name: String = tile_data.get_custom_data(TILE_DATA_KEY_NAME)
+
+			var tile_name := 'null'
+			if tile_data.has_custom_data(TILE_DATA_KEY_NAME):
+				tile_name = tile_data.get_custom_data(TILE_DATA_KEY_NAME)
 
 			# get img
 			var tile_region := atlas_source.get_tile_texture_region(atlas_coord)
