@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://blrnmecs4fxqp"]
+[gd_scene format=4 uid="uid://blrnmecs4fxqp"]
 
 [ext_resource type="Script" uid="uid://82j1n8gtltmb" path="res://Scripts/editor_rooms.gd" id="1_yfuoc"]
 [ext_resource type="TileSet" uid="uid://bvwfnvg85aece" path="res://Components/TileSets/placeables_tile_set.tres" id="2_akog7"]
@@ -12,21 +12,26 @@ script = ExtResource("1_yfuoc")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=615386656]
 zoom = Vector2(0.5, 0.5)
 
-[node name="Placeables" type="TileMapLayer" parent="." unique_id=1667126081]
-z_index = 1
+[node name="RoomNodes" type="Node2D" parent="." unique_id=881056570]
+
+[node name="Placeables" type="TileMapLayer" parent="RoomNodes" unique_id=1667126081]
+z_index = 2
 y_sort_enabled = true
+tile_map_data = PackedByteArray("AAABAP//AAAEAAAAAAAAAP//AAAEAAAAAAAAAP7/AAAEAAAAAAD/////AAAEAAAAAAD///7/AAAEAAAAAAD+////AAAEAAAAAAA=")
 tile_set = ExtResource("2_akog7")
 script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
 
-[node name="Walls" type="TileMapLayer" parent="." unique_id=1915870279]
+[node name="Walls" type="TileMapLayer" parent="RoomNodes" unique_id=1915870279]
+z_index = 1
 y_sort_enabled = true
 tile_set = ExtResource("4_xkq1w")
 script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
 
-[node name="Ground" type="TileMapLayer" parent="." unique_id=958737604]
+[node name="Ground" type="TileMapLayer" parent="RoomNodes" unique_id=958737604]
 y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAP7/AAAEAAAAAAD/////AAAEAAAAAAD//wAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAEAAAAEAAAAAAABAAAAAAAEAAAAAAABAP//AAAEAAAAAAABAP7/AAAEAAAAAAD///7/AAAEAAAAAAD+////AAAEAAAAAAAAAP//AAAEAAAAAAA=")
 tile_set = ExtResource("4_xkq1w")
 script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
@@ -38,7 +43,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Button" type="Button" parent="SaveNLoad" unique_id=1980180392]
+[node name="SaveBtn" type="Button" parent="SaveNLoad" unique_id=1980180392]
 layout_mode = 0
 offset_left = 834.0
 offset_top = 491.00003
@@ -81,3 +86,25 @@ item_2/text = "wowzerrrrrrrrrrrrrrrrrrrrrrrr"
 item_2/icon = ExtResource("5_akog7")
 item_3/text = "butt"
 item_3/icon = ExtResource("5_akog7")
+
+[node name="Naming" type="Control" parent="." unique_id=1507924453]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TitleTextbox" type="TextEdit" parent="Naming" unique_id=220362613]
+layout_mode = 0
+offset_left = -113.0
+offset_top = -643.0
+offset_right = 114.0
+offset_bottom = -566.0
+placeholder_text = "Name you room here :)"
+
+[node name="DescTextbox" type="TextEdit" parent="Naming" unique_id=305118332]
+layout_mode = 0
+offset_left = 919.0
+offset_top = -654.0
+offset_right = 1146.0
+offset_bottom = -577.0
+placeholder_text = "Note down any details B)"

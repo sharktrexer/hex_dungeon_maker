@@ -13,13 +13,14 @@ position = Vector2(552, 574)
 zoom = Vector2(0.5, 0.5)
 
 [node name="Placeables" type="TileMapLayer" parent="." unique_id=1667126081]
-z_index = 1
+z_index = 2
 y_sort_enabled = true
 tile_set = ExtResource("4_1fqph")
 script = ExtResource("2_wjf51")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
 
 [node name="Walls" type="TileMapLayer" parent="." unique_id=1915870279]
+z_index = 1
 y_sort_enabled = true
 tile_map_data = PackedByteArray(0, 0, 250, 255, 251, 255, 0, 0, 3, 0, 2, 0, 0, 0, 250, 255, 252, 255, 0, 0, 3, 0, 2, 0, 0, 0, 251, 255, 252, 255, 0, 0, 3, 0, 2, 0, 0, 0, 249, 255, 251, 255, 0, 0, 3, 0, 2, 0, 0, 0, 250, 255, 250, 255, 0, 0, 3, 0, 2, 0, 0, 0)
 tile_set = ExtResource("1_agfsv")
