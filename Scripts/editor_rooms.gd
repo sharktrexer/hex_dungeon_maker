@@ -1,6 +1,7 @@
 extends Node
 class_name RoomEditor
 
+# TODO: move into a shared class, man
 #region STOLEN
 const LAYER_NAMES :Array[String] = [
 	'Ground',
@@ -34,6 +35,8 @@ const ACTION_TILE_ERASE = 'tile_remove'
 # atlas stuff
 const TILE_DATA_KEY_NAME = 'tile_name'
 
+const WALL_IDENTIFIER_STRING = 'wall_'
+
 const TILE_SOURCE_ID = 0
 
 class AtlasTile:
@@ -58,6 +61,7 @@ var selected_tile: AtlasTile = AtlasTile.new()
 var is_painting = false
 var painting_layer: HexagonTileMapLayer
 
+## contains info of every atlas tile and their associated layer
 var available_tiles: Array[AtlasTile] = []
 
 # Called when the node enters the scene tree for the first time.
@@ -73,6 +77,9 @@ func _ready() -> void:
 	tile_list.item_selected.connect(_new_tile_selected)
 	tile_list.select(0)
 	_new_tile_selected(0)
+
+	_save_room()
+	
 
 
 
@@ -114,13 +121,13 @@ func grab_tiles():
 	# what layer a tile is associated with (convert to layer name enum)
 	var layer_ind = -1
 	# in each layer
-	for key in floor_layers:
+	for fl_lyr_key in floor_layers:
 		layer_ind += 1
 		# walls has same tileset as ground 
-		if key == 'Walls':
+		if fl_lyr_key == 'Walls':
 			continue
 
-		var cur_layer := floor_layers[key]
+		var cur_layer := floor_layers[fl_lyr_key]
 		# get atlas info for the layer
 		var atlas_source: TileSetAtlasSource = cur_layer.tile_set.get_source(TILE_SOURCE_ID)
 		var atlas_tile_count := atlas_source.get_tiles_count()
@@ -162,10 +169,79 @@ func _new_tile_selected(index:int):
 	selected_tile = available_tiles[index]
 	painting_layer = floor_layers[LAYER_NAMES[selected_tile.layer]]
 
+## save the room on btn press
+func _save_room():
+	var room_name := 'lmao'
+	var room_desc := 'omg test who is she'
+	var stage_group := 'Test'
+	var save_data_string = RoomSaver.save_room_as_json(room_name, room_desc, stage_group, floor_layers)
+	print( save_data_string)
+ 	
+	await get_tree().create_timer(2.0).timeout
+
+	print("cleared cuurent canvas")
+	for layer_name in floor_layers:
+		floor_layers[layer_name].clear()
+
+	await get_tree().create_timer(2.0).timeout
+
+	print('loading from save file')
+	set_layer_details( JSON.parse_string(save_data_string)['room_tile_data'] )
+	print('loaded')
+
 func paint_tile(tile:AtlasTile, mouse_map_pos:Vector2i):
 
-	painting_layer.set_cell(mouse_map_pos, tile.id_source, selected_tile.atlas_coord, tile.id_alt)
+	painting_layer.set_cell(mouse_map_pos, tile.id_source, tile.atlas_coord, tile.id_alt)
 
 func remove_tile(mouse_map_pos:Vector2i):
 
 	painting_layer.erase_cell(mouse_map_pos)
+
+
+## get file contents and then convert into dict
+func load_room_from_file(path):
+	var file_contents = ''
+	return JSON.parse_string(file_contents)
+
+
+func copy_load_data_to_canvas(room_info_dict: Dictionary):
+	set_room_info(room_info_dict['room_details'])
+	set_layer_details(room_info_dict['room_tile_data'])
+
+func set_room_info(info_dict: Dictionary):
+	pass
+
+func set_layer_details(coords_dict: Dictionary):
+
+	for coord in coords_dict:
+		var pos_vect: Vector2i = str_to_var('Vector2i'+coord)
+
+		var layer_info = coords_dict[coord]
+		for layer_name in layer_info:
+			if layer_info[layer_name] == null:
+				continue
+
+			var layer_to_copy_to = floor_layers[layer_name]
+			layer_to_copy_to.set_cell(
+				pos_vect,
+				int(layer_info[layer_name]['source_id']),
+				str_to_var('Vector2i' + layer_info[layer_name]['atlas_coord']) as Vector2i,
+				int(layer_info[layer_name]['alt_id']),
+			)
+			
+		
+
+'''
+ json[room_detials]
+	[name]
+	[group]
+	[desc]
+
+json[room_tile_data]
+	[coord]
+		[layer_name]
+			[alt_id]
+			[atlas_coord]
+			[source_id]
+
+'''
