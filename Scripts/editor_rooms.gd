@@ -176,27 +176,32 @@ func _new_tile_selected(index:int):
 func _save_room():
 	var room_name := 'test1'
 	var room_desc := 'omg test who is she'
-	var stage_group := 'Test'
-	# TODO: instead create from room data's group and name ex: group_name//room_name.json
-	var room_file_name = 'test//test1.json'
+	var stage_group := 'test'
+
 	var save_data_string = RoomSaver.save_room_as_json(room_name, room_desc, stage_group, floor_layers)
  	
-	save_room_to_file(room_file_name, save_data_string)
-	print("Canvas SAVED")
+	# TODO: perhaps save a dict of room name to path for ease?
+	var room_saved_to_path = save_room_data_to_file(save_data_string)
+	print("Canvas SAVED to ", room_saved_to_path)
 
 	await get_tree().create_timer(2.0).timeout
 
-	print("cleared cuurent canvas")
+	load_room(room_name, stage_group)
+
+func load_room(room_name, room_folder):
+	
 	for layer_name in floor_layers:
 		floor_layers[layer_name].clear()
+	print("cleared current canvas")
 
 	await get_tree().create_timer(2.0).timeout
-
 	print('loading from save file')
 
-	var loaded_data = load_room_from_file(room_file_name)
+	var room_file_name = SAVE_ROOM_PATH + room_folder + '//' + room_name + '.json'
+	var loaded_data = load_room_data_from_file(room_file_name)
 	copy_load_data_to_canvas( loaded_data )
-	print('LOADING complete')
+
+	print('LOADING complete from ', room_file_name)
 
 func paint_tile(tile:AtlasTile, mouse_map_pos:Vector2i):
 
@@ -208,17 +213,25 @@ func remove_tile(mouse_map_pos:Vector2i):
 
 
 ## get file contents and then convert into dict
-func load_room_from_file(room_local):
-	var final_path = SAVE_ROOM_PATH + room_local
-	var room_file = FileAccess.open(final_path, FileAccess.READ)
+func load_room_data_from_file(file_path: String):
+	var room_file = FileAccess.open(file_path, FileAccess.READ)
 	var file_contents = room_file.get_as_text()
 	return JSON.parse_string(file_contents)
 
-func save_room_to_file(room_local:String, room_data_string:String):
-	var final_path := SAVE_ROOM_PATH + room_local
-	var room_file := FileAccess.open(final_path, FileAccess.WRITE)
+## saves room data string to a json file. Returns the file path
+func save_room_data_to_file(room_data_string:String) -> String:
+	var file_path := SAVE_ROOM_PATH + get_file_path_from_room_data(room_data_string)
+	var room_file := FileAccess.open(file_path, FileAccess.WRITE)
 	room_file.store_string(room_data_string)
+	return file_path
 
+func get_file_path_from_room_data(room_data_string:String) -> String:
+	var parsed_data = JSON.parse_string(room_data_string)
+
+	var folder_name = str(parsed_data['room_details']['group'])
+	var file_name = str(parsed_data['room_details']['name']) + '.json'
+
+	return folder_name + '//' + file_name
 
 func copy_load_data_to_canvas(room_info_dict: Dictionary):
 	set_room_info(room_info_dict['room_details'])
