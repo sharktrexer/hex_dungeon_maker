@@ -28,6 +28,9 @@ func grab_floor_layers() -> Dictionary[String, HexagonTileMapLayer]:
 
 #region Editing
 
+# File Stuff
+const SAVE_ROOM_PATH = 'res://RoomSaveData//'
+
 # input stuff
 const ACTION_TILE_PAINT = 'tile_paint'
 const ACTION_TILE_ERASE = 'tile_remove'
@@ -171,12 +174,16 @@ func _new_tile_selected(index:int):
 
 ## save the room on btn press
 func _save_room():
-	var room_name := 'lmao'
+	var room_name := 'test1'
 	var room_desc := 'omg test who is she'
 	var stage_group := 'Test'
+	# TODO: instead create from room data's group and name ex: group_name//room_name.json
+	var room_file_name = 'test//test1.json'
 	var save_data_string = RoomSaver.save_room_as_json(room_name, room_desc, stage_group, floor_layers)
-	print( save_data_string)
  	
+	save_room_to_file(room_file_name, save_data_string)
+	print("Canvas SAVED")
+
 	await get_tree().create_timer(2.0).timeout
 
 	print("cleared cuurent canvas")
@@ -186,8 +193,10 @@ func _save_room():
 	await get_tree().create_timer(2.0).timeout
 
 	print('loading from save file')
-	set_layer_details( JSON.parse_string(save_data_string)['room_tile_data'] )
-	print('loaded')
+
+	var loaded_data = load_room_from_file(room_file_name)
+	copy_load_data_to_canvas( loaded_data )
+	print('LOADING complete')
 
 func paint_tile(tile:AtlasTile, mouse_map_pos:Vector2i):
 
@@ -199,18 +208,27 @@ func remove_tile(mouse_map_pos:Vector2i):
 
 
 ## get file contents and then convert into dict
-func load_room_from_file(path):
-	var file_contents = ''
+func load_room_from_file(room_local):
+	var final_path = SAVE_ROOM_PATH + room_local
+	var room_file = FileAccess.open(final_path, FileAccess.READ)
+	var file_contents = room_file.get_as_text()
 	return JSON.parse_string(file_contents)
+
+func save_room_to_file(room_local:String, room_data_string:String):
+	var final_path := SAVE_ROOM_PATH + room_local
+	var room_file := FileAccess.open(final_path, FileAccess.WRITE)
+	room_file.store_string(room_data_string)
 
 
 func copy_load_data_to_canvas(room_info_dict: Dictionary):
 	set_room_info(room_info_dict['room_details'])
 	set_layer_details(room_info_dict['room_tile_data'])
 
+## updates this UI with the room's name, desc, from load
 func set_room_info(info_dict: Dictionary):
 	pass
 
+## updates this layer display with the data from load
 func set_layer_details(coords_dict: Dictionary):
 
 	for coord in coords_dict:
@@ -228,20 +246,4 @@ func set_layer_details(coords_dict: Dictionary):
 				str_to_var('Vector2i' + layer_info[layer_name]['atlas_coord']) as Vector2i,
 				int(layer_info[layer_name]['alt_id']),
 			)
-			
-		
-
-'''
- json[room_detials]
-	[name]
-	[group]
-	[desc]
-
-json[room_tile_data]
-	[coord]
-		[layer_name]
-			[alt_id]
-			[atlas_coord]
-			[source_id]
-
-'''
+				

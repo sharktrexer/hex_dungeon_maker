@@ -1,0 +1,132 @@
+{
+	"room_details": {
+		"desc": "omg test who is she",
+		"group": "test",
+		"name": "test1"
+	},
+	"room_tile_data": {
+		"(-1, -1)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Walls": null
+		},
+		"(-1, -2)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Walls": null
+		},
+		"(-1, 0)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": null,
+			"Walls": null
+		},
+		"(-2, -1)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Walls": null
+		},
+		"(0, -1)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Walls": null
+		},
+		"(0, -2)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Walls": null
+		},
+		"(0, 0)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": null,
+			"Walls": null
+		},
+		"(0, 1)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": null,
+			"Walls": null
+		},
+		"(1, -1)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Walls": null
+		},
+		"(1, -2)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": null,
+			"Walls": null
+		},
+		"(1, 0)": {
+			"Ground": {
+				"alt_id": 0,
+				"atlas_coord": "(4, 0)",
+				"source_id": 0
+			},
+			"Placeables": null,
+			"Walls": null
+		}
+	}
+}

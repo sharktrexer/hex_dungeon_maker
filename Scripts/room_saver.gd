@@ -17,7 +17,23 @@ static func save_room_as_json(name: String, desc: String, group:String, layers: 
 	return JSON.stringify(room_data, '\t')
 
 
-# converts the tile data of each layer into a dictionary that groups each tile per layer by their shared coord
+'''
+Resulting JSON Format:
+
+ json[room_detials]
+	[name]
+	[group]
+	[desc]
+
+json[room_tile_data]
+	[coord]
+		[layer_name]
+			[alt_id]
+			[atlas_coord]
+			[source_id]
+
+'''
+## converts the tile data of each layer into a dictionary that groups each tile per layer by their shared coord
 static func dictify_room_data(layers: Dictionary) -> Dictionary:
 
 	var map_data := {}
@@ -61,3 +77,4 @@ static func dictify_room_data(layers: Dictionary) -> Dictionary:
 		map_data[str(coord)] = layer_coord_data
 
 	return map_data
+
