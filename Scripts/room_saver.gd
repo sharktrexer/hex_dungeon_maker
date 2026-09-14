@@ -1,11 +1,6 @@
 class_name RoomSaver
 
-static func save_room_as_json(name: String, desc: String, group:String, layers: Dictionary) -> String:
-	var room_info = {
-		'name' : name.to_lower(),
-		'desc' : desc,
-		'group' : group.to_lower()
-	}
+static func save_room_as_json(room_info:Dictionary, layers: Dictionary) -> String:
 
 	var room_tile_data = dictify_room_data(layers)
 

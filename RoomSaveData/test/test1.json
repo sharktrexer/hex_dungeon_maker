@@ -2,7 +2,8 @@
 	"room_details": {
 		"desc": "omg test who is she",
 		"group": "test",
-		"name": "test1"
+		"name": "test1",
+		"variant_of": "test1"
 	},
 	"room_tile_data": {
 		"(-1, -1)": {
