@@ -24,6 +24,10 @@ window/stretch/aspect="ignore"
 
 enabled=PackedStringArray("res://addons/hexagon_tilemaplayer/plugin.cfg")
 
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+
 [input]
 
 tile_remove={
