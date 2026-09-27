@@ -131,9 +131,9 @@ func grab_tiles():
 	# in each layer
 	for fl_lyr_key in floor_layers:
 		layer_ind += 1
-		# walls has same tileset as ground 
-		if fl_lyr_key == 'Walls':
-			continue
+		 
+		# if fl_lyr_key == 'Walls':
+		# 	continue
 
 		var cur_layer := floor_layers[fl_lyr_key]
 		# get atlas info for the layer
@@ -150,6 +150,14 @@ func grab_tiles():
 			var tile_name := 'null'
 			if tile_data.has_custom_data(TILE_DATA_KEY_NAME):
 				tile_name = tile_data.get_custom_data(TILE_DATA_KEY_NAME)
+
+				# separate ground and floor tiles into separate layers
+				# they share same atlas 
+				if fl_lyr_key == 'Ground' and not 'floor' in tile_name:
+					continue
+
+				if fl_lyr_key == 'Walls' and not 'wall' in tile_name:
+					continue
 
 			# crop atlas texture to just the tile
 			var tile_region := atlas_source.get_tile_texture_region(atlas_coord)
@@ -203,31 +211,25 @@ func grab_room_info():
 ## save the room on btn press
 func _save_room():
 
-
 	var room_info = grab_room_info()
 	var room_file_path := convert_to_room_path(room_info['group'], room_info['name'])
 
 	var save_data_string := RoomSaver.save_room_as_json(room_info, floor_layers)
-	if save_data_string == '':
+ 	
+	var success_msg = access_room_data_from_file(room_file_path, FileAccess.WRITE, save_data_string)
+	if success_msg == '':
 		return
  	
-	access_room_data_from_file(room_file_path, FileAccess.WRITE, save_data_string)
 	on_save.emit(room_file_path)
 	print("Canvas SAVED to ", room_file_path)
-
-	await get_tree().create_timer(2.0).timeout
-
-	load_room(room_file_path)
 
 func load_room(room_path):
 
 	clear_canvas()
 	print("cleared current canvas")
 
-	await get_tree().create_timer(2.0).timeout
-
 	var loaded_data = access_room_data_from_file(room_path, FileAccess.READ)
-	if loaded_data == null:
+	if loaded_data == '':
 		return
 
 	copy_load_data_to_canvas( loaded_data )
@@ -248,22 +250,30 @@ func clear_canvas():
 		floor_layers[layer_name].clear()
 	on_clear.emit()
 
-func access_room_data_from_file(file_path: String, mode:FileAccess.ModeFlags, room_data_string=''):
+func access_room_data_from_file(file_path: String, mode:FileAccess.ModeFlags, room_data_string='') -> String:
+
+	if mode == FileAccess.WRITE and room_data_string == '':
+		failed_file_access.emit("Attempted to save no data to ", file_path)
+		return ''
+
 	var room_file = FileAccess.open(file_path, mode)
 
 	if room_file == null:
 		failed_file_access.emit(FileAccess.get_open_error())
-		return null
+		return ''
 	
 	# file function
 	var file_contents = ''
+
 	if mode == FileAccess.READ:
 		file_contents = room_file.get_as_text()
 		return JSON.parse_string(file_contents)
+
 	elif mode == FileAccess.WRITE:
 		room_file.store_string(room_data_string)
+		return 'DONE!'
 
-	return null
+	return ''
 
 func get_file_path_from_room_data(room_data_string:String) -> String:
 	var parsed_data = JSON.parse_string(room_data_string)

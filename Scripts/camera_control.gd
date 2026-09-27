@@ -36,7 +36,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent):
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.button_index == MOUSE_BUTTON_MIDDLE:
 			if event.is_pressed():
 				is_camera_panning = true
 			elif event.is_released():
