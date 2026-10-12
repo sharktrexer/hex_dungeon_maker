@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://blrnmecs4fxqp"]
+[gd_scene format=3 uid="uid://blrnmecs4fxqp"]
 
 [ext_resource type="Script" uid="uid://bpi6hioesjmbk" path="res://Scripts/editor_controller.gd" id="1_8whw5"]
 [ext_resource type="Script" uid="uid://82j1n8gtltmb" path="res://Scripts/editor_rooms.gd" id="1_yfuoc"]
@@ -76,7 +76,6 @@ unique_name_in_owner = true
 [node name="Placeables" type="TileMapLayer" parent="RoomNodes" unique_id=1667126081]
 z_index = 2
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAABAP//AAAEAAAAAAAAAP//AAAEAAAAAAAAAP7/AAAEAAAAAAD/////AAAEAAAAAAD///7/AAAEAAAAAAD+////AAAEAAAAAAA=")
 tile_set = ExtResource("2_akog7")
 script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
@@ -90,7 +89,6 @@ metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
 
 [node name="Ground" type="TileMapLayer" parent="RoomNodes" unique_id=958737604]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAAAP7/AAAEAAAAAAD/////AAAEAAAAAAD//wAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAEAAAAEAAAAAAABAAAAAAAEAAAAAAABAP//AAAEAAAAAAABAP7/AAAEAAAAAAD///7/AAAEAAAAAAD+////AAAEAAAAAAAAAP//AAAEAAAAAAA=")
 tile_set = ExtResource("4_xkq1w")
 script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
@@ -363,7 +361,7 @@ icon = ExtResource("5_akog7")
 flat = true
 expand_icon = true
 
-[node name="EditFiltersBttn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer" unique_id=1588404332]
+[node name="EditFiltersBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer" unique_id=1588404332]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("7_k4o0l")
@@ -409,6 +407,15 @@ size_flags_horizontal = 3
 localize_numeral_system = false
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_k4o0l")
+
+[node name="TempMenuBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=980074945]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 32)
+custom_maximum_size = Vector2(-1, 32)
+layout_mode = 2
+size_flags_vertical = 8
+text = "Main Menu"
+expand_icon = true
 
 [node name="ToolBarTabBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=1596880405]
 unique_name_in_owner = true
@@ -531,6 +538,11 @@ text = "Frozen Basement, Testing, Tree of Life"
 layout_mode = 2
 text = "Refine Search"
 
+[node name="LeaveSelectingBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows/SearchCols" unique_id=1648055981]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Go back to Editing"
+
 [node name="SavedRoomsPanel" type="Panel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows" unique_id=1254559279]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
@@ -650,7 +662,7 @@ item_1/icon = ExtResource("5_akog7")
 custom_minimum_size = Vector2(60, 50)
 layout_mode = 2
 
-[node name="DupeButton" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel" unique_id=55907173]
+[node name="DupeBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel" unique_id=55907173]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
@@ -675,14 +687,14 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 
-[node name="LoadButton" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=288580656]
+[node name="LoadBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=288580656]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "LOAD"
 
-[node name="DeleteButton" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=1428154452]
+[node name="DeleteBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=1428154452]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -891,6 +903,7 @@ layout_mode = 2
 metadata/_tab_index = 4
 
 [node name="MenuBtns" type="PanelContainer" parent="EditorLayer/UI_Switcher/OptionsMenu" unique_id=1920355895]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -928,7 +941,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="LoadBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row2" unique_id=1355995408]
+[node name="SelectRoomBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row2" unique_id=1355995408]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -958,7 +971,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="ResumBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row3" unique_id=1153363824]
+[node name="ResumeBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row3" unique_id=1153363824]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -1036,11 +1049,13 @@ layout_mode = 2
 alignment = 1
 
 [node name="ApplyInfoBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=75100812]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Apply"
 
 [node name="CancelInfoBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1127489320]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Cancel"

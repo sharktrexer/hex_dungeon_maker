@@ -5,7 +5,7 @@ class_name UI_Controller
 
 enum MenuTab {
 	Confirmation,
-	Hud,
+	Editing,
 	RoomSelect,
 	Filtering,
 	Options,
@@ -15,28 +15,29 @@ enum MenuTab {
 # contains all menus to switch between
 @onready var main_switcher := %UI_Switcher as TabContainer
 
-## change tab to the index. 
-func switch_tab(tab:MenuTab):
-	main_switcher.current_tab = tab
-
-func confirm_before_switch(agree:Confirmation):
-	switch_tab(MenuTab.Confirmation)
-	confirm_btn.button_up.connect(switch_tab(agree.to_tab), CONNECT_ONE_SHOT)
-	abort_btn.button_up.connect(switch_tab(agree.from_tab), CONNECT_ONE_SHOT)
-	msg_display.text = agree.msg
-  
+var cur_confirm : Confirmation = null  
 
 class Confirmation:
-	var to_tab: MenuTab
-	var from_tab: MenuTab
 	var msg: String
+	var switch_to_tab: Callable
+	var switch_back_tab: Callable
+	var on_confirm_func: Callable
+
+	func _init(to: Callable, from: Callable, confirm_func:Callable=Callable()):
+		switch_to_tab = to
+		switch_back_tab = from
+
+		on_confirm_func = confirm_func
 
 #region Editing Overlay UI
 
+'''---------------------Tile Select UI---------------------'''
+
+## Main control node that the tile select UI is built on
 @onready var tile_select_ui := %TileSelectUI as Panel
 
+## used to toggle display
 @onready var tile_tab_btn : Button = %TileTabBtn
-# hide tile UI 
 
 @onready var tile_list_tabs : TabContainer = %TileListTabs as TabContainer
 
@@ -55,23 +56,15 @@ When all are included, just display one icon: all
 General can't be unselected
 '''
 
-@onready var editFiltersBttn : Button = %EditFiltersBttn as Button
-''' press to open menu to modify what tiles will be in the lists '''
-
 
 @onready var layer_dropdown_display := %SelectedLayerDropdown as OptionButton
 '''
 lets user change and display the current painting layer
 '''
 
-func toggle_control_visibility(ui_part:Control):
-	if ui_part.visible:
-		ui_part.hide()
-	else:
-		ui_part.show()
+'''---------------------Tool Bar---------------------'''
 
-# Tool Bar
-
+## Main control node that the tool bar UI is built on
 @onready var toolbar_ui := %ToolBarPanel as Panel
 
 ## add buttons that trigger switch to painting tools
@@ -80,10 +73,20 @@ func toggle_control_visibility(ui_part:Control):
 ## connect to hide tool bar ui
 @onready var tab_bar_btn : Button = %ToolBarTabBtn
 
-func toggle_show_tool_bar():
-	pass
+@onready var test_menu_btn := %TempMenuBtn as Button
 
 #endregion
+
+#region Options Menu
+
+@onready var option_menu := %MenuBtns as PanelContainer
+
+@onready var resume_btn = %ResumeBtn as Button
+
+
+#region Room Select Menu
+
+@onready var back_to_edit_btn = %LeaveSelectingBtn as Button
 
 #region Confirm UI
 
@@ -93,18 +96,52 @@ func toggle_show_tool_bar():
 
 #endregion
 
+func toggle_control_visibility(ui_part:Control):
+	ui_part.visible = not ui_part.visible
+
+func switch_tab(tab:MenuTab):
+	main_switcher.current_tab = tab
+
+func press_all_filter_btns():
+	print('pressed all filter btns')
+
+func confirm_before_switch(agree:Confirmation):
+	switch_tab(MenuTab.Confirmation)
+	
+	cur_confirm = agree
+
+	confirm_btn.button_up.connect(agree.switch_to_tab)
+	abort_btn.button_up.connect(agree.switch_back_tab)
+	msg_display.text = agree.msg
+
+	if agree.on_confirm_func.is_valid():
+		confirm_btn.button_up.connect(agree.on_confirm_func)
+
+
+
+func clean_confirm_btns():
+	confirm_btn.button_up.disconnect(cur_confirm.switch_to_tab)
+	abort_btn.button_up.disconnect(cur_confirm.switch_back_tab)
+	confirm_btn.button_up.disconnect(cur_confirm.on_confirm_func)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
+	confirm_btn.button_up.connect(clean_confirm_btns)
+	abort_btn.button_up.connect(clean_confirm_btns)
+
+	# toggling overlay parts in editing HUD
 	tile_tab_btn.button_up.connect(toggle_control_visibility.bind(tile_select_ui))
 	tab_bar_btn.button_up.connect(toggle_control_visibility.bind(toolbar_ui))
 
-	pass # Replace with function body.
+	test_menu_btn.button_up.connect(switch_tab.bind(MenuTab.Options))
 
+	# options menu
+	resume_btn.button_up.connect(switch_tab.bind(MenuTab.Editing))
+	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	#load_btn.button_up.connect(switch_tab.bind(MenuTab.RoomSelect))
 
 '''
 -----------Main Editing UI-----------

@@ -9,6 +9,13 @@ var floor_layers : Dictionary[String, HexagonTileMapLayer]
 # File Stuff
 const SAVE_ROOM_PATH = 'res://RoomSaveData//'
 
+signal on_save(path:String)
+signal on_clear
+signal on_load(path:String)
+signal failed_file_access(err_msg:String)
+
+var last_saved_room_data = ''
+
 # atlas stuff
 const TILE_DATA_KEY_NAME = 'tile_name'
 
@@ -26,17 +33,12 @@ class AtlasTile:
 # UI 
 @onready var tile_list:ItemList = %TileList2
 
-# prob should get from not this script
-
 # editing data
 var selected_tile: AtlasTile = AtlasTile.new()
 var is_painting = false
 var painting_layer: HexagonTileMapLayer
 
-signal on_save(path:String)
-signal on_clear
-signal on_load(path:String)
-signal failed_file_access(err_msg:String)
+
 
 ## contains info of every atlas tile and their associated layer
 var AVAIL_TILES: Array[AtlasTile] = []
@@ -163,6 +165,7 @@ func _save_room():
 	var room_file_path := convert_to_room_path(room_info['group'], room_info['name'])
 
 	var save_data_string := RoomSaver.save_room_as_json(room_info, floor_layers)
+	last_saved_room_data = RoomSaver.save_room_as_json(room_info, floor_layers)
  	
 	var success_msg = access_room_data_from_file(room_file_path, FileAccess.WRITE, save_data_string)
 	if success_msg == '':
@@ -180,10 +183,16 @@ func load_room(room_path):
 	if loaded_data == '':
 		return
 
+	last_saved_room_data = JSON.stringify(loaded_data)
 	copy_load_data_to_canvas( loaded_data )
 
 	on_load.emit(room_path)
 	print('LOADING complete from ', room_path)
+
+func is_there_unsaved_progress():
+	var cur_data = RoomSaver.save_room_as_json(grab_room_info(), floor_layers)
+	return last_saved_room_data != cur_data
+
 
 func paint_tile():
 
