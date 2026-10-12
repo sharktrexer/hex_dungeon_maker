@@ -1,63 +1,32 @@
 extends Node
 class_name RoomEditor
 
-# TODO: move into a shared class, man
-#region STOLEN
-const LAYER_NAMES :Array[String] = [
-	'Ground',
-	'Walls',
-	'Placeables',
-]
+var LAYER_NAMES :Array[String] = []
 var floor_layers : Dictionary[String, HexagonTileMapLayer]
-
-func grab_layer_names() -> Array[String]:
-	return LAYER_NAMES as Array[String]
-
-func grab_floor_layers() -> Dictionary[String, HexagonTileMapLayer]:
-
-	var layers: Dictionary[String, HexagonTileMapLayer] = {}
-	for layer_name in grab_layer_names():
-		layers[layer_name] = find_child(layer_name)
-
-		if layers[layer_name] == null:
-			push_error('Could not find layer_name {0} inside Node {1} '.format([layer_name, self]))
-
-	return layers
-
-#endregion
 
 #region Editing
 
 # File Stuff
 const SAVE_ROOM_PATH = 'res://RoomSaveData//'
 
-# input stuff
-const ACTION_TILE_PAINT = 'tile_paint'
-const ACTION_TILE_ERASE = 'tile_remove'
-
 # atlas stuff
 const TILE_DATA_KEY_NAME = 'tile_name'
 
 const WALL_IDENTIFIER_STRING = 'wall_'
+const FLOOR_IDENTIFIER_STRING = 'floor_'
 
 const TILE_SOURCE_ID = 0
 
 class AtlasTile:
 	var atlas_coord: Vector2i = Vector2i.ZERO
-	var layer: LayerName
+	var layer: int
 	var id_alt := 0
 	var id_source := 0
 
 # UI 
-@onready var tile_list:ItemList = $TileMenu/TileList
+@onready var tile_list:ItemList = %TileList2
 
 # prob should get from not this script
-enum LayerName {
-	Ground,
-	Wall,
-	Placeables
-}
-
 
 # editing data
 var selected_tile: AtlasTile = AtlasTile.new()
@@ -70,15 +39,17 @@ signal on_load(path:String)
 signal failed_file_access(err_msg:String)
 
 ## contains info of every atlas tile and their associated layer
-var available_tiles: Array[AtlasTile] = []
+var AVAIL_TILES: Array[AtlasTile] = []
 
+## contains the room names and their file data as string
+var ROOM_LIBRARY: Dictionary[String, String]
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+func initialize() -> void:
+
+	grab_saved_rooms()
 
 	tile_list.clear()
-
-	floor_layers = grab_floor_layers()
 
 	grab_tiles()
 
@@ -90,38 +61,15 @@ func _ready() -> void:
 	_save_room()
 	
 
-
-func _unhandled_input(event: InputEvent) -> void:
-
-	var mouse_to_map_pos := get_mouse_pos_as_map()
-
-	# start continuous painting if unhandled input
-	if event.is_action_pressed(ACTION_TILE_PAINT):
-
-		paint_tile(selected_tile, mouse_to_map_pos)
-		is_painting = true
-
-	if event.is_action_pressed(ACTION_TILE_ERASE):
-		
-		remove_tile(mouse_to_map_pos)
-		is_painting = true
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-
-	var mouse_to_map_pos := get_mouse_pos_as_map()
-
-	if is_painting:
-		if Input.is_action_pressed(ACTION_TILE_PAINT) :
-			paint_tile(selected_tile, mouse_to_map_pos)
-
-		if Input.is_action_pressed(ACTION_TILE_ERASE):
-			remove_tile(mouse_to_map_pos)
-
-
-	if Input.is_action_just_released(ACTION_TILE_PAINT) or Input.is_action_just_released(ACTION_TILE_ERASE):
-		is_painting = false
+## call after user tries to load or save, so launching doesnt have long load time?
+func grab_saved_rooms():
+	var files: PackedStringArray = []
+	var folders = DirAccess.get_directories_at(SAVE_ROOM_PATH)
+	for dir in folders:
+		print(dir)
+		for file in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
+			files.append(dir + '//' + file)
+	print(files)
 
 ## using the atlas of each layer, get the tile info of every tile and then propogate in lists (ui and literal)
 func grab_tiles():
@@ -153,10 +101,10 @@ func grab_tiles():
 
 				# separate ground and floor tiles into separate layers
 				# they share same atlas 
-				if fl_lyr_key == 'Ground' and not 'floor' in tile_name:
+				if fl_lyr_key == 'Ground' and not FLOOR_IDENTIFIER_STRING in tile_name:
 					continue
 
-				if fl_lyr_key == 'Walls' and not 'wall' in tile_name:
+				if fl_lyr_key == 'Walls' and not WALL_IDENTIFIER_STRING in tile_name:
 					continue
 
 			# crop atlas texture to just the tile
@@ -171,10 +119,10 @@ func grab_tiles():
 			# store tile data
 			var tile_info = AtlasTile.new()
 			tile_info.atlas_coord = atlas_coord
-			tile_info.layer = layer_ind as LayerName
+			tile_info.layer = layer_ind
 
 			# internal tile info
-			available_tiles.append(tile_info)
+			AVAIL_TILES.append(tile_info)
 
 ## get map position from the layer being painted on
 func get_mouse_pos_as_map() -> Vector2i:
@@ -182,7 +130,7 @@ func get_mouse_pos_as_map() -> Vector2i:
 
 ## when a new item in list ui is selected, update
 func _new_tile_selected(index:int):
-	selected_tile = available_tiles[index]
+	selected_tile = AVAIL_TILES[index]
 	painting_layer = floor_layers[LAYER_NAMES[selected_tile.layer]]
 
 func get_room_info_ui():
@@ -219,7 +167,7 @@ func _save_room():
 	var success_msg = access_room_data_from_file(room_file_path, FileAccess.WRITE, save_data_string)
 	if success_msg == '':
 		return
- 	
+
 	on_save.emit(room_file_path)
 	print("Canvas SAVED to ", room_file_path)
 
@@ -237,13 +185,17 @@ func load_room(room_path):
 	on_load.emit(room_path)
 	print('LOADING complete from ', room_path)
 
-func paint_tile(tile:AtlasTile, mouse_map_pos:Vector2i):
+func paint_tile():
 
-	painting_layer.set_cell(mouse_map_pos, tile.id_source, tile.atlas_coord, tile.id_alt)
+	painting_layer.set_cell(
+		get_mouse_pos_as_map(), 
+		selected_tile.id_source, 
+		selected_tile.atlas_coord,
+		selected_tile.id_alt)
 
-func remove_tile(mouse_map_pos:Vector2i):
+func remove_tile():
 
-	painting_layer.erase_cell(mouse_map_pos)
+	painting_layer.erase_cell(get_mouse_pos_as_map())
 
 func clear_canvas():
 	for layer_name in floor_layers:
