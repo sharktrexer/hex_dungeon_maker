@@ -1,22 +1,29 @@
 [gd_scene format=4 uid="uid://blrnmecs4fxqp"]
 
+[ext_resource type="Script" uid="uid://bpi6hioesjmbk" path="res://Scripts/editor_controller.gd" id="1_8whw5"]
 [ext_resource type="Script" uid="uid://82j1n8gtltmb" path="res://Scripts/editor_rooms.gd" id="1_yfuoc"]
 [ext_resource type="TileSet" uid="uid://bvwfnvg85aece" path="res://Components/TileSets/placeables_tile_set.tres" id="2_akog7"]
 [ext_resource type="Script" uid="uid://ct7vd1mk4rlue" path="res://Scripts/camera_control.gd" id="2_l0fpw"]
 [ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="3_l0fpw"]
 [ext_resource type="TileSet" uid="uid://fecy5s7m2bq8" path="res://Components/TileSets/hex_tile_set.tres" id="4_xkq1w"]
 [ext_resource type="Texture2D" uid="uid://0462ner2ujw6" path="res://icon.svg" id="5_akog7"]
+[ext_resource type="Script" uid="uid://xihptmjceygo" path="res://Scripts/Controller_UI.gd" id="6_ovspo"]
 [ext_resource type="ButtonGroup" uid="uid://byui7u3sheh5r" path="res://Components/ButtonGroups/RoomEditorToolsGroup.tres" id="7_6pgsh"]
 [ext_resource type="Texture2D" uid="uid://bwjhk5i0cif4o" path="res://Graphics/UI_Elements/plus_button_small.png" id="7_k4o0l"]
+[ext_resource type="Texture2D" uid="uid://c0bwvfnypro7p" path="res://Graphics/UI_Elements/stage_icons/general.png" id="9_m46tu"]
+[ext_resource type="Texture2D" uid="uid://fpseef3wgfpw" path="res://Graphics/UI_Elements/stage_icons/test.png" id="10_cgxe2"]
+[ext_resource type="Texture2D" uid="uid://bbmapovm6fwjj" path="res://Graphics/UI_Elements/stage_icons/desert.png" id="10_xp05a"]
+[ext_resource type="Texture2D" uid="uid://dg2vpbg53hkqi" path="res://Graphics/UI_Elements/stage_icons/haven.png" id="11_cgxe2"]
+[ext_resource type="Texture2D" uid="uid://bv5m0pe6vtxdi" path="res://Graphics/UI_Elements/stage_icons/lodge.png" id="11_ebi1f"]
+[ext_resource type="Texture2D" uid="uid://dgywffnd22axf" path="res://Graphics/UI_Elements/stage_icons/abyss.png" id="12_0p8re"]
+[ext_resource type="Texture2D" uid="uid://de6q5vup7wdk2" path="res://Graphics/UI_Elements/stage_icons/icey_basement.png" id="12_al2wg"]
+[ext_resource type="Texture2D" uid="uid://3nvwq0m7dv1n" path="res://Graphics/UI_Elements/stage_icons/plains.png" id="13_lp6c0"]
+[ext_resource type="Texture2D" uid="uid://coatc26w7b8xc" path="res://Graphics/UI_Elements/stage_icons/tree.png" id="13_tpcwm"]
+[ext_resource type="Texture2D" uid="uid://8qi0lwd2frv" path="res://Graphics/UI_Elements/stage_icons/beach.png" id="17_ebi1f"]
+[ext_resource type="Texture2D" uid="uid://drcjx2sftkdaa" path="res://Graphics/UI_Elements/stage_icons/suzano.png" id="18_ovspo"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l0fpw"]
-bg_color = Color(0.42745098, 0.039215688, 0.078431375, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xkq1w"]
-bg_color = Color(0.85, 0.4216, 0.391, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pgsh"]
-bg_color = Color(0.7615666, 3.4413488e-06, 7.70092e-07, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebi1f"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m46tu"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -26,12 +33,6 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cgxe2"]
 bg_color = Color(0, 0, 0, 0.27058825)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ixtud"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0p8re"]
-bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_va3hm"]
 bg_color = Color(0, 0.6, 0.44000003, 1)
@@ -51,13 +52,26 @@ bg_color = Color(0.31215206, 0.59753716, 1, 1)
 default_font_size = 18
 
 [node name="EditingSpace" type="Node2D" unique_id=1203826954]
+script = ExtResource("1_8whw5")
+
+[node name="Controllers" type="Node2D" parent="." unique_id=1811062924]
+position = Vector2(834, 491.00003)
+scale = Vector2(4.670817, 4.97408)
+
+[node name="EditingController" type="Node2D" parent="Controllers" unique_id=907399307]
+unique_name_in_owner = true
 script = ExtResource("1_yfuoc")
+
+[node name="UI_Controller" type="Node2D" parent="Controllers" unique_id=1901452429]
+unique_name_in_owner = true
+script = ExtResource("6_ovspo")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=615386656]
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("2_l0fpw")
 
 [node name="RoomNodes" type="Node2D" parent="." unique_id=881056570]
+unique_name_in_owner = true
 
 [node name="Placeables" type="TileMapLayer" parent="RoomNodes" unique_id=1667126081]
 z_index = 2
@@ -81,138 +95,88 @@ tile_set = ExtResource("4_xkq1w")
 script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
 
-[node name="Controllers" type="Node2D" parent="." unique_id=1811062924]
-position = Vector2(834, 491.00003)
-scale = Vector2(4.670817, 4.97408)
-
-[node name="GamepadInput" type="Node2D" parent="Controllers" unique_id=907399307]
-
 [node name="EditorLayer" type="CanvasLayer" parent="." unique_id=1163413577]
 
-[node name="EditorUI" type="Control" parent="EditorLayer" unique_id=1650507595]
-visible = false
-z_index = 100
-y_sort_enabled = true
-layout_mode = 3
-anchors_preset = 0
-
-[node name="SaveNLoad" type="Control" parent="EditorLayer/EditorUI" unique_id=1771708833]
-z_index = 100
-layout_mode = 1
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SaveBtn" type="Button" parent="EditorLayer/EditorUI/SaveNLoad" unique_id=643963973]
-layout_mode = 0
-offset_left = 1043.0
-offset_top = 548.0
-offset_right = 1087.0
-offset_bottom = 579.0
-text = "Save"
-
-[node name="MenuBtn" type="Button" parent="EditorLayer/EditorUI/SaveNLoad" unique_id=427389328]
-layout_mode = 0
-offset_left = 1044.0
-offset_top = 583.0
-offset_right = 1152.0
-offset_bottom = 614.0
-text = "Menu"
-
-[node name="SaveAsBtn" type="Button" parent="EditorLayer/EditorUI/SaveNLoad" unique_id=1234704610]
-layout_mode = 0
-offset_left = 1089.0
-offset_top = 549.0
-offset_right = 1157.0
-offset_bottom = 580.0
-text = "Save As"
-
-[node name="ClearBtn" type="Button" parent="EditorLayer/EditorUI/SaveNLoad" unique_id=564452122]
-layout_mode = 0
-offset_left = 1045.0
-offset_top = 613.0
-offset_right = 1148.0
-offset_bottom = 644.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_l0fpw")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_xkq1w")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6pgsh")
-text = "CLEAR"
-
-[node name="Naming" type="Control" parent="EditorLayer/EditorUI" unique_id=1507924453]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
-grow_horizontal = 2
-
-[node name="TitleTextbox" type="TextEdit" parent="EditorLayer/EditorUI/Naming" unique_id=220362613]
-layout_mode = 0
-offset_left = 277.0
-offset_right = 504.0
-offset_bottom = 77.0
-placeholder_text = "Name you room here :)"
-
-[node name="DescTextbox" type="TextEdit" parent="EditorLayer/EditorUI/Naming" unique_id=305118332]
-layout_mode = 0
-offset_left = 514.0
-offset_top = 8.0
-offset_right = 741.0
-offset_bottom = 85.0
-placeholder_text = "Note down any details B)"
-
-[node name="TileMenu" type="Control" parent="EditorLayer/EditorUI" unique_id=154120664]
-z_index = 100
-anchors_preset = 0
-
-[node name="TileList" type="ItemList" parent="EditorLayer/EditorUI/TileMenu" unique_id=754280110]
+[node name="UI_Switcher" type="TabContainer" parent="EditorLayer" unique_id=1157048]
 unique_name_in_owner = true
-layout_mode = 1
-offset_right = 255.0
-offset_bottom = 652.0
-text_overrun_behavior = 1
-item_count = 4
-max_columns = 2
-same_column_width = true
-icon_mode = 0
-fixed_icon_size = Vector2i(64, 64)
-item_0/text = "LOL"
-item_0/icon = ExtResource("5_akog7")
-item_1/text = "XD"
-item_1/icon = ExtResource("5_akog7")
-item_2/text = "wowzerrrrrrrrrrrrrrrrrrrrrrrr"
-item_2/icon = ExtResource("5_akog7")
-item_3/text = "butt"
-item_3/icon = ExtResource("5_akog7")
-
-[node name="EditingOverlay" type="PanelContainer" parent="EditorLayer" unique_id=1855146340]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ebi1f")
+current_tab = 1
+tabs_visible = false
+
+[node name="ConfirmationMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=521924319]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="EditorLayer/UI_Switcher/ConfirmationMenu" unique_id=1177048815]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/ConfirmationMenu/PanelContainer" unique_id=303386113]
+layout_mode = 2
+
+[node name="ConfirmMsg" type="RichTextLabel" parent="EditorLayer/UI_Switcher/ConfirmationMenu/PanelContainer/VBoxContainer" unique_id=2062321994]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Boi you sure about dis???? u may loose like hella hella progress and that no beuno babeito..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="EditorLayer/UI_Switcher/ConfirmationMenu/PanelContainer/VBoxContainer" unique_id=1694313712]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/ConfirmationMenu/PanelContainer/VBoxContainer/MarginContainer" unique_id=1085794595]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ConfirmBtn" type="Button" parent="EditorLayer/UI_Switcher/ConfirmationMenu/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1134222907]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Confirm"
+
+[node name="AbortBtn" type="Button" parent="EditorLayer/UI_Switcher/ConfirmationMenu/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=553736055]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ABORT"
+
+[node name="EditingHUD" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1855146340]
+layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m46tu")
+metadata/_tab_index = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/EditingOverlay" unique_id=13832061]
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD" unique_id=13832061]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Panel" type="Panel" parent="EditorLayer/EditingOverlay/HBoxContainer" unique_id=1783598749]
+[node name="TileSelectUI" type="Panel" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=1783598749]
+unique_name_in_owner = true
 custom_maximum_size = Vector2(280, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LeftUI" type="VBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel" unique_id=1617122587]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI" unique_id=1617122587]
 layout_mode = 0
 offset_right = 277.0
 offset_bottom = 648.0
 theme_override_constants/separation = 0
 
-[node name="TileListTabs" type="TabContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI" unique_id=762578718]
+[node name="TileListTabs" type="TabContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer" unique_id=762578718]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -221,12 +185,12 @@ theme_override_font_sizes/font_size = 10
 current_tab = 0
 clip_tabs = false
 
-[node name="Test" type="PanelContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs" unique_id=1636272843]
+[node name="Test" type="PanelContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs" unique_id=1636272843]
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 0
 
-[node name="TileList2" type="ItemList" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs/Test" unique_id=60594759]
+[node name="TileList2" type="ItemList" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs/Test" unique_id=60594759]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -244,13 +208,13 @@ item_2/icon = ExtResource("5_akog7")
 item_3/text = "butt"
 item_3/icon = ExtResource("5_akog7")
 
-[node name="Geometry" type="PanelContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs" unique_id=2068991766]
+[node name="Geometry" type="PanelContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs" unique_id=2068991766]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 1
 
-[node name="GeometryList" type="ItemList" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs/Geometry" unique_id=663146239]
+[node name="GeometryList" type="ItemList" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs/Geometry" unique_id=663146239]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -269,13 +233,13 @@ item_2/icon = ExtResource("5_akog7")
 item_3/text = "butt"
 item_3/icon = ExtResource("5_akog7")
 
-[node name="Enemies" type="PanelContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs" unique_id=1253099155]
+[node name="Enemies" type="PanelContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs" unique_id=1253099155]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 2
 
-[node name="EnemyList" type="ItemList" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs/Enemies" unique_id=150764288]
+[node name="EnemyList" type="ItemList" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs/Enemies" unique_id=150764288]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -294,13 +258,13 @@ item_2/icon = ExtResource("5_akog7")
 item_3/text = "butt"
 item_3/icon = ExtResource("5_akog7")
 
-[node name="Objects" type="PanelContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs" unique_id=1784060885]
+[node name="Objects" type="PanelContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs" unique_id=1784060885]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 3
 
-[node name="ObjectList" type="ItemList" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs/Objects" unique_id=1695101511]
+[node name="ObjectList" type="ItemList" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs/Objects" unique_id=1695101511]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -319,13 +283,13 @@ item_2/icon = ExtResource("5_akog7")
 item_3/text = "butt"
 item_3/icon = ExtResource("5_akog7")
 
-[node name="Doors" type="PanelContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs" unique_id=902377194]
+[node name="Doors" type="PanelContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs" unique_id=902377194]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 4
 
-[node name="DoorList" type="ItemList" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileListTabs/Doors" unique_id=1714626990]
+[node name="DoorList" type="ItemList" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs/Doors" unique_id=1714626990]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -344,79 +308,79 @@ item_2/icon = ExtResource("5_akog7")
 item_3/text = "butt"
 item_3/icon = ExtResource("5_akog7")
 
-[node name="Included" type="PanelContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI" unique_id=355171434]
+[node name="Included" type="PanelContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer" unique_id=355171434]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included" unique_id=639956853]
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included" unique_id=639956853]
 layout_mode = 2
 
-[node name="CurLayerLabel" type="Label" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer" unique_id=892227900]
+[node name="CurLayerLabel" type="Label" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer" unique_id=892227900]
 layout_mode = 2
 text = "Including: "
 
-[node name="ScrollContainer" type="ScrollContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer" unique_id=1352793582]
+[node name="ScrollContainer" type="ScrollContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer" unique_id=1352793582]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="IncludedIcons" type="HBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer/ScrollContainer" unique_id=188785437]
+[node name="IncludedIcons" type="HBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer/ScrollContainer" unique_id=188785437]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="btn" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1227680496]
+[node name="btn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1227680496]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("5_akog7")
 flat = true
 expand_icon = true
 
-[node name="btn2" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=49530428]
+[node name="btn2" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=49530428]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("5_akog7")
 flat = true
 expand_icon = true
 
-[node name="btn3" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1193367004]
+[node name="btn3" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1193367004]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("5_akog7")
 flat = true
 expand_icon = true
 
-[node name="btn4" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1008690562]
+[node name="btn4" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1008690562]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("5_akog7")
 flat = true
 expand_icon = true
 
-[node name="btn5" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1719388501]
+[node name="btn5" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer/ScrollContainer/IncludedIcons" unique_id=1719388501]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 icon = ExtResource("5_akog7")
 flat = true
 expand_icon = true
 
-[node name="EditFiltersBttn" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/Included/HBoxContainer" unique_id=1588404332]
+[node name="EditFiltersBttn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/Included/HBoxContainer" unique_id=1588404332]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("7_k4o0l")
 
-[node name="TileFooter" type="PanelContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI" unique_id=494918379]
+[node name="TileFooter" type="PanelContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer" unique_id=494918379]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileFooter" unique_id=1127421564]
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileFooter" unique_id=1127421564]
 layout_mode = 2
 alignment = 1
 
-[node name="CurLayerLabel" type="Label" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileFooter/HBoxContainer" unique_id=1538125608]
+[node name="CurLayerLabel" type="Label" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileFooter/HBoxContainer" unique_id=1538125608]
 layout_mode = 2
 text = "Current Layer:"
 
-[node name="SelectedLayerDropdown" type="OptionButton" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel/LeftUI/TileFooter/HBoxContainer" unique_id=1717443456]
+[node name="SelectedLayerDropdown" type="OptionButton" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileFooter/HBoxContainer" unique_id=1717443456]
 unique_name_in_owner = true
 layout_mode = 2
 text_overrun_behavior = 3
@@ -429,50 +393,53 @@ popup/item_1/id = 1
 popup/item_2/text = "objects"
 popup/item_2/id = 2
 
-[node name="TileTabBtn" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/Panel" unique_id=1437181039]
+[node name="TileTabBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=1437181039]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 custom_maximum_size = Vector2(32, 32)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_right = 32.0
-offset_bottom = 32.0
-grow_horizontal = 0
+layout_mode = 2
 offset_transform_position = Vector2(32, 0)
 icon = ExtResource("5_akog7")
 icon_alignment = 1
 expand_icon = true
 
-[node name="SeeThroughPanel" type="Panel" parent="EditorLayer/EditingOverlay/HBoxContainer" unique_id=56056568]
+[node name="SeeThroughPanel" type="Panel" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=56056568]
 layout_mode = 2
 size_flags_horizontal = 3
 localize_numeral_system = false
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_k4o0l")
 
-[node name="ToolBarPanel" type="Panel" parent="EditorLayer/EditingOverlay/HBoxContainer" unique_id=896906137]
+[node name="ToolBarTabBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=1596880405]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("5_akog7")
+expand_icon = true
+
+[node name="ToolBarPanel" type="Panel" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=896906137]
+unique_name_in_owner = true
 custom_maximum_size = Vector2(100, -1)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_behavior_recursive = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cgxe2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel" unique_id=1581704867]
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel" unique_id=1581704867]
 layout_mode = 0
 offset_right = 100.0
 offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ToolButtsPanel" type="VBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer" unique_id=1809056226]
+[node name="ToolButtsPanel" type="VBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer" unique_id=1809056226]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="ToolButton" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer/ToolButtsPanel" unique_id=920554798]
+[node name="ToolButton" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/ToolButtsPanel" unique_id=920554798]
 custom_minimum_size = Vector2(80, 50)
 layout_mode = 2
 theme_override_constants/h_separation = 0
@@ -482,7 +449,7 @@ icon = ExtResource("5_akog7")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ToolButton2" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer/ToolButtsPanel" unique_id=4284614]
+[node name="ToolButton2" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/ToolButtsPanel" unique_id=4284614]
 custom_minimum_size = Vector2(80, 50)
 layout_mode = 2
 theme_override_constants/h_separation = 0
@@ -492,177 +459,48 @@ icon = ExtResource("5_akog7")
 icon_alignment = 1
 expand_icon = true
 
-[node name="OtherButtsPanel" type="VBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer" unique_id=970145800]
+[node name="OtherButtsPanel" type="VBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer" unique_id=970145800]
 visible = false
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel" unique_id=43983968]
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel" unique_id=43983968]
 layout_mode = 2
 
-[node name="SaveRoomBtn" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel/HBoxContainer" unique_id=1418300311]
+[node name="SaveRoomBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel/HBoxContainer" unique_id=1418300311]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Save"
 
-[node name="ClearRoomBtn" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel/HBoxContainer" unique_id=1188606271]
+[node name="ClearRoomBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel/HBoxContainer" unique_id=1188606271]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Clear"
 
-[node name="MenuBtn" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel" unique_id=1833474776]
+[node name="MenuBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel" unique_id=1833474776]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Menu"
 
-[node name="ToolBarTabBtn" type="Button" parent="EditorLayer/EditingOverlay/HBoxContainer/ToolBarPanel" unique_id=1596880405]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 1
-offset_left = -32.0
-offset_bottom = 32.0
-icon = ExtResource("5_akog7")
-expand_icon = true
-
-[node name="PopupLayer" type="CanvasLayer" parent="." unique_id=889606089]
+[node name="RoomSelectMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1539163136]
 visible = false
-
-[node name="RoomInfoMenu" type="PanelContainer" parent="PopupLayer" unique_id=65890825]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Header" type="PanelContainer" parent="PopupLayer/RoomInfoMenu" unique_id=1938915399]
-custom_minimum_size = Vector2(0, 120)
-custom_maximum_size = Vector2(-1, 120)
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_ixtud")
+metadata/_tab_index = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PopupLayer/RoomInfoMenu/Header" unique_id=1726897842]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer" unique_id=1303172057]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer" unique_id=1846426306]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer/VBoxContainer" unique_id=2093580842]
-layout_mode = 2
-text = "Title"
-horizontal_alignment = 1
-
-[node name="RoomNameInput" type="TextEdit" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer/VBoxContainer" unique_id=2111180610]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Name your level here."
-
-[node name="PanelContainer2" type="PanelContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer" unique_id=824945048]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer2" unique_id=484113515]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer2/VBoxContainer2" unique_id=648250851]
-layout_mode = 2
-text = "Title"
-horizontal_alignment = 1
-
-[node name="RoomDescInput" type="TextEdit" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer2/VBoxContainer2" unique_id=155694679]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Give your level some context."
-
-[node name="PanelContainer3" type="PanelContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer" unique_id=1073423140]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer3" type="VBoxContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer3" unique_id=277487038]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer3/VBoxContainer3" unique_id=1984408150]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="CheckButton" type="CheckButton" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer3/VBoxContainer3/HBoxContainer" unique_id=939988181]
-layout_mode = 2
-text = "Is a Variant of another room?"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer3/VBoxContainer3" unique_id=66407993]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer3/VBoxContainer3/HBoxContainer2" unique_id=1155366504]
-layout_mode = 2
-text = "Variant of:"
-
-[node name="MenuButton" type="MenuButton" parent="PopupLayer/RoomInfoMenu/Header/HBoxContainer/PanelContainer3/VBoxContainer3/HBoxContainer2" unique_id=760957178]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "variant of room name"
-icon = ExtResource("5_akog7")
-text_overrun_behavior = 3
-expand_icon = true
-item_count = 6
-popup/item_0/icon = ExtResource("5_akog7")
-popup/item_0/id = 0
-popup/item_1/icon = ExtResource("5_akog7")
-popup/item_1/id = 1
-popup/item_2/text = "mammacita"
-popup/item_2/icon = ExtResource("5_akog7")
-popup/item_2/id = 2
-popup/item_3/icon = ExtResource("5_akog7")
-popup/item_3/id = 3
-popup/item_4/icon = ExtResource("5_akog7")
-popup/item_4/id = 4
-popup/item_5/icon = ExtResource("5_akog7")
-popup/item_5/id = 5
-
-[node name="Center" type="PanelContainer" parent="PopupLayer/RoomInfoMenu" unique_id=988092834]
-custom_minimum_size = Vector2(460, 300)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_0p8re")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PopupLayer/RoomInfoMenu/Center" unique_id=567179815]
-layout_mode = 2
-
-[node name="EditorMenuLayer" type="CanvasLayer" parent="." unique_id=1908603114]
-layer = 2
-visible = false
-
-[node name="TabPanel" type="TabContainer" parent="EditorMenuLayer" unique_id=915831557]
-offset_right = 1152.0
-offset_bottom = 648.0
-current_tab = 0
-tabs_visible = false
-
-[node name="RoomSelectMenu" type="PanelContainer" parent="EditorMenuLayer/TabPanel" unique_id=1539163136]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="MainColumns" type="HBoxContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu" unique_id=1419384293]
+[node name="MainColumns" type="HBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu" unique_id=1419384293]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="RoomNavRows" type="VBoxContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns" unique_id=1377029448]
+[node name="RoomNavRows" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns" unique_id=1377029448]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="HeaderPanel" type="Panel" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows" unique_id=1969891683]
+[node name="HeaderPanel" type="Panel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows" unique_id=1969891683]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_va3hm")
 
-[node name="HeaderRows" type="VBoxContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel" unique_id=289839112]
+[node name="HeaderRows" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel" unique_id=289839112]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -670,36 +508,36 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows" unique_id=1135882080]
+[node name="Label" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows" unique_id=1135882080]
 layout_mode = 2
 text = "Select a room to edit!"
 label_settings = SubResource("LabelSettings_rjy2h")
 horizontal_alignment = 1
 
-[node name="SearchCols" type="HBoxContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows" unique_id=1008931400]
+[node name="SearchCols" type="HBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows" unique_id=1008931400]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows/SearchCols" unique_id=403177236]
+[node name="Label" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows/SearchCols" unique_id=403177236]
 layout_mode = 2
 text = "Including Rooms From:"
 
-[node name="Label2" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows/SearchCols" unique_id=1536451496]
+[node name="Label2" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows/SearchCols" unique_id=1536451496]
 layout_mode = 2
 text = "Frozen Basement, Testing, Tree of Life"
 
-[node name="Button" type="Button" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows/SearchCols" unique_id=1785005264]
+[node name="Button" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/HeaderPanel/HeaderRows/SearchCols" unique_id=1785005264]
 layout_mode = 2
 text = "Refine Search"
 
-[node name="SavedRoomsPanel" type="Panel" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows" unique_id=1254559279]
+[node name="SavedRoomsPanel" type="Panel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows" unique_id=1254559279]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_p53ll")
 
-[node name="AvailRoomsList" type="ItemList" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/RoomNavRows/SavedRoomsPanel" unique_id=329540650]
+[node name="AvailRoomsList" type="ItemList" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/RoomNavRows/SavedRoomsPanel" unique_id=329540650]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -712,8 +550,8 @@ max_columns = 4
 same_column_width = true
 icon_mode = 0
 icon_scale = 1.615
-item_0/text = "Test1"
-item_0/icon = ExtResource("5_akog7")
+item_0/text = "Create NEW!!!!!"
+item_0/icon = ExtResource("7_k4o0l")
 item_1/text = "Dusty Musty Busty"
 item_1/icon = ExtResource("5_akog7")
 item_2/text = "hi ho hi ho"
@@ -721,13 +559,13 @@ item_2/icon = ExtResource("5_akog7")
 item_3/text = "You're Cabbage!"
 item_3/icon = ExtResource("5_akog7")
 
-[node name="SelectedRoomPanel" type="Panel" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns" unique_id=1735584142]
+[node name="SelectedRoomPanel" type="Panel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns" unique_id=1735584142]
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_5hisy")
 
-[node name="MarginContainer" type="MarginContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel" unique_id=143976216]
+[node name="MarginContainer" type="MarginContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel" unique_id=143976216]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -739,65 +577,65 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer" unique_id=1362883248]
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer" unique_id=1362883248]
 layout_mode = 2
 
-[node name="RoomNameLabel" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=925756020]
+[node name="RoomNameLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=925756020]
 unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "ROOM NAME HERE"
 horizontal_alignment = 1
 
-[node name="StaticLabel" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1704620831]
+[node name="StaticLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1704620831]
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "Stage"
 horizontal_alignment = 1
 
-[node name="RoomGroupLabel" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1745269893]
+[node name="RoomGroupLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1745269893]
 unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "STAGE ROOM BELONGS TO HERE"
 horizontal_alignment = 1
 
-[node name="StaticLabel2" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1597333324]
+[node name="StaticLabel2" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1597333324]
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "Description"
 horizontal_alignment = 1
 
-[node name="RoomDesc" type="RichTextLabel" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=2023299619]
+[node name="RoomDesc" type="RichTextLabel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=2023299619]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"
 
-[node name="StaticLabel3" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1996535233]
+[node name="StaticLabel3" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1996535233]
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "Preview"
 horizontal_alignment = 1
 
-[node name="RoomPreviewPic" type="TextureRect" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=2003099614]
+[node name="RoomPreviewPic" type="TextureRect" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=2003099614]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 150)
 layout_mode = 2
 texture = ExtResource("5_akog7")
 
-[node name="VariantRows" type="VBoxContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=664825678]
+[node name="VariantRows" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=664825678]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="StaticLabel4" type="Label" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/VariantRows" unique_id=724896758]
+[node name="StaticLabel4" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/VariantRows" unique_id=724896758]
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "Variants"
 horizontal_alignment = 1
 
-[node name="VariantList" type="ItemList" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/VariantRows" unique_id=1915444175]
+[node name="VariantList" type="ItemList" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/VariantRows" unique_id=1915444175]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 100)
 layout_mode = 2
@@ -808,11 +646,11 @@ item_0/icon = ExtResource("5_akog7")
 item_1/text = "Variant 2"
 item_1/icon = ExtResource("5_akog7")
 
-[node name="Panel" type="Panel" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1439101534]
+[node name="Panel" type="Panel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1439101534]
 custom_minimum_size = Vector2(60, 50)
 layout_mode = 2
 
-[node name="DupeButton" type="Button" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel" unique_id=55907173]
+[node name="DupeButton" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel" unique_id=55907173]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
@@ -824,11 +662,11 @@ grow_vertical = 2
 size_flags_horizontal = 4
 text = "Duplicate"
 
-[node name="Panel2" type="Panel" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=104255984]
+[node name="Panel2" type="Panel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=104255984]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2" unique_id=357082394]
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2" unique_id=357082394]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -837,52 +675,238 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 
-[node name="LoadButton" type="Button" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=288580656]
+[node name="LoadButton" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=288580656]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "LOAD"
 
-[node name="DeleteButton" type="Button" parent="EditorMenuLayer/TabPanel/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=1428154452]
+[node name="DeleteButton" type="Button" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/Panel2/HBoxContainer" unique_id=1428154452]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Delete"
 
-[node name="SearchSettingsMenu" type="PanelContainer" parent="EditorMenuLayer/TabPanel" unique_id=1260237574]
+[node name="TileFilterMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1281627247]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 1
+metadata/_tab_index = 3
 
-[node name="EditingMenu" type="CanvasLayer" parent="." unique_id=1029803382]
-visible = false
+[node name="FilterMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher/TileFilterMenu" unique_id=95771681]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="DarkeningPanel" type="PanelContainer" parent="EditingMenu" unique_id=1039060964]
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu" unique_id=565208963]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Header" type="Panel" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer" unique_id=1615452135]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/Header" unique_id=671812656]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Tilesets to Display"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsPanel" type="Panel" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer" unique_id=2056716364]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel" unique_id=1246893425]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MenuBtns" type="PanelContainer" parent="EditingMenu/DarkeningPanel" unique_id=1920355895]
+[node name="FilterOptionGrid" type="GridContainer" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer" unique_id=1082810916]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 69
+theme_override_constants/v_separation = 4
+columns = 5
+
+[node name="Button2" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1835188086]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+disabled = true
+toggle_mode = true
+button_pressed = true
+icon = ExtResource("9_m46tu")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button9" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=2137078684]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("10_cgxe2")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button12" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1334499855]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("11_ebi1f")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button7" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1736062590]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("12_al2wg")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button5" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=190878027]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("12_0p8re")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button11" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1157792117]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("13_lp6c0")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button8" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1904608506]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("13_tpcwm")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button4" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1458805491]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("11_cgxe2")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button3" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=531877597]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("10_xp05a")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button10" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1513807141]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("17_ebi1f")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button6" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=1312543706]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("18_ovspo")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonFooter" type="Panel" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer" unique_id=295084421]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/ButtonFooter" unique_id=1014348642]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ApplyFilterBtn" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/ButtonFooter/HBoxContainer" unique_id=1329936007]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Apply"
+
+[node name="SelectAllFiltersBtn" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/ButtonFooter/HBoxContainer" unique_id=1114765581]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Select All"
+
+[node name="CancelFilterBtn" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/ButtonFooter/HBoxContainer" unique_id=2029820354]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel
+"
+
+[node name="OptionsMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1039060964]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="MenuBtns" type="PanelContainer" parent="EditorLayer/UI_Switcher/OptionsMenu" unique_id=1920355895]
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="cols" type="VBoxContainer" parent="EditingMenu/DarkeningPanel/MenuBtns" unique_id=489413962]
+[node name="cols" type="VBoxContainer" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns" unique_id=489413962]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="row1" type="HBoxContainer" parent="EditingMenu/DarkeningPanel/MenuBtns/cols" unique_id=665267583]
+[node name="row1" type="HBoxContainer" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols" unique_id=665267583]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="SaveBtn" type="Button" parent="EditingMenu/DarkeningPanel/MenuBtns/cols/row1" unique_id=2033958313]
+[node name="SaveBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row1" unique_id=2033958313]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -890,7 +914,7 @@ size_flags_horizontal = 3
 text = "Save"
 text_overrun_behavior = 3
 
-[node name="InfoEditBtn" type="Button" parent="EditingMenu/DarkeningPanel/MenuBtns/cols/row1" unique_id=645125317]
+[node name="InfoEditBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row1" unique_id=645125317]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -898,13 +922,13 @@ size_flags_horizontal = 3
 text = "Edit Info"
 text_overrun_behavior = 3
 
-[node name="row2" type="HBoxContainer" parent="EditingMenu/DarkeningPanel/MenuBtns/cols" unique_id=2064440029]
+[node name="row2" type="HBoxContainer" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols" unique_id=2064440029]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="LoadBtn" type="Button" parent="EditingMenu/DarkeningPanel/MenuBtns/cols/row2" unique_id=1355995408]
+[node name="LoadBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row2" unique_id=1355995408]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -912,7 +936,7 @@ size_flags_horizontal = 3
 text = "Load"
 text_overrun_behavior = 3
 
-[node name="NewRoomBtn" type="Button" parent="EditingMenu/DarkeningPanel/MenuBtns/cols/row2" unique_id=1238526721]
+[node name="NewRoomBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row2" unique_id=1238526721]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -920,24 +944,137 @@ size_flags_horizontal = 3
 text = "New"
 text_overrun_behavior = 3
 
-[node name="DeriveBtn" type="Button" parent="EditingMenu/DarkeningPanel/MenuBtns/cols/row2" unique_id=71948200]
+[node name="DeriveBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row2" unique_id=71948200]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Derive"
+text = "Make Variant"
 text_overrun_behavior = 3
 
-[node name="row3" type="HBoxContainer" parent="EditingMenu/DarkeningPanel/MenuBtns/cols" unique_id=827365319]
+[node name="row3" type="HBoxContainer" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols" unique_id=827365319]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="ResumBtn" type="Button" parent="EditingMenu/DarkeningPanel/MenuBtns/cols/row3" unique_id=1153363824]
+[node name="ResumBtn" type="Button" parent="EditorLayer/UI_Switcher/OptionsMenu/MenuBtns/cols/row3" unique_id=1153363824]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Resume"
 text_overrun_behavior = 3
+
+[node name="RoomInfoMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=890038025]
+visible = false
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 2
+metadata/_tab_index = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="EditorLayer/UI_Switcher/RoomInfoMenu" unique_id=1811030318]
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer" unique_id=1461551026]
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1938814120]
+layout_mode = 2
+text = "Description"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescEdit" type="TextEdit" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=964809498]
+custom_minimum_size = Vector2(300, 85)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Let us know the deets of this hot cool ass room here is an example: blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"
+wrap_mode = 1
+
+[node name="Label2" type="Label" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1441513411]
+layout_mode = 2
+text = "Stage Group"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1217995851]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+text_overrun_behavior = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "General"
+popup/item_0/id = 0
+
+[node name="Label3" type="Label" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=286850101]
+layout_mode = 2
+text = "Room Type"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionButton2" type="OptionButton" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=442508327]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+text_overrun_behavior = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "Regular"
+popup/item_0/id = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1453641573]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+alignment = 1
+
+[node name="ApplyInfoBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=75100812]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Apply"
+
+[node name="CancelInfoBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1127489320]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Cancel"
+
+[node name="RoomSelectMenu" type="CanvasLayer" parent="." unique_id=1908603114]
+layer = 2
+visible = false
+
+[node name="TabPanel" type="TabContainer" parent="RoomSelectMenu" unique_id=915831557]
+offset_right = 1152.0
+offset_bottom = 648.0
+current_tab = 0
+tabs_visible = false
+
+[node name="SearchSettingsMenu" type="PanelContainer" parent="RoomSelectMenu/TabPanel" unique_id=1260237574]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="TileFilterMenu" type="CanvasLayer" parent="." unique_id=833085147]
+visible = false
+
+[node name="OptionsMenu" type="CanvasLayer" parent="." unique_id=1029803382]
+visible = false
+
+[node name="ConfirmationMenu" type="CanvasLayer" parent="." unique_id=801953921]
+visible = false
+
+[node name="InfoEditMenu" type="CanvasLayer" parent="." unique_id=1063762766]
+visible = false
+
+[node name="Control" type="Control" parent="InfoEditMenu" unique_id=422980200]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
