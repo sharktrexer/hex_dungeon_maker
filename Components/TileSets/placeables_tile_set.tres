@@ -37,6 +37,15 @@ texture_region_size = Vector2i(96, 131)
 4:1/0 = 0
 4:1/0/texture_origin = Vector2i(0, 21)
 4:1/0/custom_data_0 = "treasure_door"
+0:2/0 = 0
+0:2/0/texture_origin = Vector2i(0, 21)
+0:2/0/custom_data_0 = "trreasure"
+1:2/0 = 0
+1:2/0/texture_origin = Vector2i(0, 21)
+1:2/0/custom_data_0 = "hazard"
+2:2/0 = 0
+2:2/0/texture_origin = Vector2i(0, 21)
+2:2/0/custom_data_0 = "barrel"
 
 [resource]
 tile_shape = 3
