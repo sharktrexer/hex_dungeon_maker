@@ -15,8 +15,6 @@ enum MenuTab {
 # contains all menus to switch between
 @onready var main_switcher := %UI_Switcher as TabContainer
 
-var previous_menu_tab = -1
-
 ## change tab to the index. 
 func switch_tab(tab:MenuTab):
 	main_switcher.current_tab = tab
@@ -35,7 +33,7 @@ class Confirmation:
 
 #region Editing Overlay UI
 
-# Tile List
+@onready var tile_select_ui := %TileSelectUI as Panel
 
 @onready var tile_tab_btn : Button = %TileTabBtn
 # hide tile UI 
@@ -66,16 +64,21 @@ General can't be unselected
 lets user change and display the current painting layer
 '''
 
-func toggle_show_tile_list():
-	pass
+func toggle_control_visibility(ui_part:Control):
+	if ui_part.visible:
+		ui_part.hide()
+	else:
+		ui_part.show()
 
 # Tool Bar
+
+@onready var toolbar_ui := %ToolBarPanel as Panel
 
 ## add buttons that trigger switch to painting tools
 @onready var tool_bttn_container : VBoxContainer= %ToolButtsPanel
 
 ## connect to hide tool bar ui
-@onready var bar_tab_btn : Button = %ToolBarTabBtn
+@onready var tab_bar_btn : Button = %ToolBarTabBtn
 
 func toggle_show_tool_bar():
 	pass
@@ -93,7 +96,8 @@ func toggle_show_tool_bar():
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
-	
+	tile_tab_btn.button_up.connect(toggle_control_visibility.bind(tile_select_ui))
+	tab_bar_btn.button_up.connect(toggle_control_visibility.bind(toolbar_ui))
 
 	pass # Replace with function body.
 
