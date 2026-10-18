@@ -1,8 +1,6 @@
 extends Node
 class_name UI_Controller
 
-#region Tab Management
-
 enum MenuTab {
 	Confirmation,
 	Editing,
@@ -11,11 +9,6 @@ enum MenuTab {
 	Options,
 	RoomInfo,
 }
-
-# contains all menus to switch between
-@onready var main_switcher := %UI_Switcher as TabContainer
-
-var cur_confirm : Confirmation = null  
 
 class Confirmation:
 	var msg: String
@@ -29,66 +22,32 @@ class Confirmation:
 
 		on_confirm_func = confirm_func
 
-#region Editing Overlay UI
+## contains all menus to switch between
+@onready var UI_Parent := %UI_Switcher as TabContainer
 
-'''---------------------Tile Select UI---------------------'''
-
-## Main control node that the tile select UI is built on
 @onready var tile_select_ui := %TileSelectUI as Panel
-
-## used to toggle display
-@onready var tile_tab_btn : Button = %TileTabBtn
-
-@onready var tile_list_tabs : TabContainer = %TileListTabs as TabContainer
-
-var tile_list_names := [
-	'Geometry',
-	'Enemy',
-	'Object',
-	'Doors',
-]
-var tile_tab_list := []
-
-## add and manage icons relating to tile groups to include in the tile lists
-@onready var included_tile_icons : HBoxContainer = %IncludedIcons as HBoxContainer
-''' 
-When all are included, just display one icon: all
-General can't be unselected
-'''
-
-
-@onready var layer_dropdown_display := %SelectedLayerDropdown as OptionButton
-'''
-lets user change and display the current painting layer
-'''
-
-'''---------------------Tool Bar---------------------'''
-
-## Main control node that the tool bar UI is built on
 @onready var toolbar_ui := %ToolBarPanel as Panel
 
-## add buttons that trigger switch to painting tools
-@onready var tool_bttn_container : VBoxContainer= %ToolButtsPanel
+#region Temp
 
-## connect to hide tool bar ui
+## temp to toggle tile HUD
+@onready var tile_tab_btn : Button = %TileTabBtn
+
+## temp to toggle tool bar
 @onready var tab_bar_btn : Button = %ToolBarTabBtn
 
+# temp to go back to editing ui state
 @onready var test_menu_btn := %TempMenuBtn as Button
 
-#endregion
+#region Room Info UI
 
-#region Options Menu
-
-@onready var option_menu := %MenuBtns as PanelContainer
-
-@onready var resume_btn = %ResumeBtn as Button
-
-
-#region Room Select Menu
-
-@onready var back_to_edit_btn = %LeaveSelectingBtn as Button
+@onready var room_desc := %DescEdit as TextEdit
+@onready var room_group := %StageGroupDrop as OptionButton
+@onready var room_type := %RoomTypeDrop as OptionButton
 
 #region Confirm UI
+## confirm data being used
+var cur_confirm : Confirmation = null  
 
 @onready var msg_display = %ConfirmMsg as RichTextLabel
 @onready var confirm_btn = %ConfirmBtn as Button
@@ -100,9 +59,24 @@ func toggle_control_visibility(ui_part:Control):
 	ui_part.visible = not ui_part.visible
 
 func switch_tab(tab:MenuTab):
-	main_switcher.current_tab = tab
+	UI_Parent.current_tab = tab
+
+func get_room_info() -> Dictionary[String,String]:
+	var room_name := 'test'
+	var stage_group := room_group.get_item_text(room_group.selected).to_lower()
+	var room_t := room_type.get_item_text(room_type.selected).to_lower()
+
+	var room_info : Dictionary[String, String] = {
+		'name' : room_name,
+		'desc' : room_desc.text,
+		'group' : stage_group,
+		'type' : room_t,
+		'variant_of' : ''
+	}
+	return room_info
 
 func press_all_filter_btns():
+	# loop thru filte bttns and press them lmao
 	print('pressed all filter btns')
 
 func confirm_before_switch(agree:Confirmation):
@@ -118,31 +92,36 @@ func confirm_before_switch(agree:Confirmation):
 		confirm_btn.button_up.connect(agree.on_confirm_func)
 
 
-
+## disconnect signals from confirm btns so they don't cause bad logic
 func clean_confirm_btns():
 	confirm_btn.button_up.disconnect(cur_confirm.switch_to_tab)
 	abort_btn.button_up.disconnect(cur_confirm.switch_back_tab)
-	confirm_btn.button_up.disconnect(cur_confirm.on_confirm_func)
+	if cur_confirm.on_confirm_func.is_valid():
+		confirm_btn.button_up.disconnect(cur_confirm.on_confirm_func)
 
+func bind_btns(btn_func_dict:Dictionary[String, Callable]):
+	for btn_name in btn_func_dict:
+		var butt = UI_Parent.find_child(btn_name) as Button
+		butt.button_up.connect(btn_func_dict[btn_name])
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
+	# confirmation 
 	confirm_btn.button_up.connect(clean_confirm_btns)
 	abort_btn.button_up.connect(clean_confirm_btns)
+	
+	# TEMP
 
 	# toggling overlay parts in editing HUD
 	tile_tab_btn.button_up.connect(toggle_control_visibility.bind(tile_select_ui))
 	tab_bar_btn.button_up.connect(toggle_control_visibility.bind(toolbar_ui))
 
 	test_menu_btn.button_up.connect(switch_tab.bind(MenuTab.Options))
+	# END TEMP
 
-	# options menu
-	resume_btn.button_up.connect(switch_tab.bind(MenuTab.Editing))
-	
 
-	#load_btn.button_up.connect(switch_tab.bind(MenuTab.RoomSelect))
-
+#region Draft
 '''
 -----------Main Editing UI-----------
 

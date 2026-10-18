@@ -5,9 +5,10 @@
 [ext_resource type="TileSet" uid="uid://bvwfnvg85aece" path="res://Components/TileSets/placeables_tile_set.tres" id="2_akog7"]
 [ext_resource type="Script" uid="uid://ct7vd1mk4rlue" path="res://Scripts/camera_control.gd" id="2_l0fpw"]
 [ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="3_l0fpw"]
+[ext_resource type="Script" uid="uid://cwjnlpvvrvr3i" path="res://Scripts/file_control.gd" id="4_u0dgt"]
 [ext_resource type="TileSet" uid="uid://fecy5s7m2bq8" path="res://Components/TileSets/hex_tile_set.tres" id="4_xkq1w"]
 [ext_resource type="Texture2D" uid="uid://0462ner2ujw6" path="res://icon.svg" id="5_akog7"]
-[ext_resource type="Script" uid="uid://xihptmjceygo" path="res://Scripts/Controller_UI.gd" id="6_ovspo"]
+[ext_resource type="Script" uid="uid://xihptmjceygo" path="res://Scripts/ui_control.gd" id="6_ovspo"]
 [ext_resource type="ButtonGroup" uid="uid://byui7u3sheh5r" path="res://Components/ButtonGroups/RoomEditorToolsGroup.tres" id="7_6pgsh"]
 [ext_resource type="Texture2D" uid="uid://bwjhk5i0cif4o" path="res://Graphics/UI_Elements/plus_button_small.png" id="7_k4o0l"]
 [ext_resource type="Texture2D" uid="uid://c0bwvfnypro7p" path="res://Graphics/UI_Elements/stage_icons/general.png" id="9_m46tu"]
@@ -21,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://coatc26w7b8xc" path="res://Graphics/UI_Elements/stage_icons/tree.png" id="13_tpcwm"]
 [ext_resource type="Texture2D" uid="uid://8qi0lwd2frv" path="res://Graphics/UI_Elements/stage_icons/beach.png" id="17_ebi1f"]
 [ext_resource type="Texture2D" uid="uid://drcjx2sftkdaa" path="res://Graphics/UI_Elements/stage_icons/suzano.png" id="18_ovspo"]
+[ext_resource type="Texture2D" uid="uid://ct88sl67vv7ex" path="res://Graphics/UI_Elements/stage_icons/psych.png" id="22_b35yk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebi1f"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -65,6 +67,10 @@ script = ExtResource("1_yfuoc")
 [node name="UI_Controller" type="Node2D" parent="Controllers" unique_id=1901452429]
 unique_name_in_owner = true
 script = ExtResource("6_ovspo")
+
+[node name="FileController" type="Node2D" parent="Controllers" unique_id=719098874]
+unique_name_in_owner = true
+script = ExtResource("4_u0dgt")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=615386656]
 zoom = Vector2(0.5, 0.5)
@@ -864,6 +870,16 @@ icon = ExtResource("18_ovspo")
 icon_alignment = 1
 expand_icon = true
 
+[node name="Button13" type="Button" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer/OptionsPanel/ScrollContainer/FilterOptionGrid" unique_id=667301080]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+icon = ExtResource("22_b35yk")
+icon_alignment = 1
+expand_icon = true
+
 [node name="ButtonFooter" type="Panel" parent="EditorLayer/UI_Switcher/TileFilterMenu/FilterMenu/VBoxContainer" unique_id=295084421]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
@@ -1003,6 +1019,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DescEdit" type="TextEdit" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=964809498]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 85)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1015,7 +1032,8 @@ text = "Stage Group"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1217995851]
+[node name="StageGroupDrop" type="OptionButton" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1217995851]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1023,7 +1041,7 @@ alignment = 1
 text_overrun_behavior = 3
 selected = 0
 item_count = 1
-popup/item_0/text = "General"
+popup/item_0/text = "Test"
 popup/item_0/id = 0
 
 [node name="Label3" type="Label" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=286850101]
@@ -1032,7 +1050,8 @@ text = "Room Type"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButton2" type="OptionButton" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=442508327]
+[node name="RoomTypeDrop" type="OptionButton" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=442508327]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
