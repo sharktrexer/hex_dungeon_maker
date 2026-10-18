@@ -151,6 +151,8 @@ func init_geometry():
 
 func init_UI():
 	UI.bind_btns(BUTTS)
+	UI.set_dropdown_items(Stages.keys(), UI.room_group)
+	UI.set_dropdown_items(RoomTypes.keys(), UI.room_type)
 
 func confirm_unsaved_progress(from_tab:UI_Controller.MenuTab, to_tab:UI_Controller.MenuTab, confirm_func:Callable=Callable()):
 

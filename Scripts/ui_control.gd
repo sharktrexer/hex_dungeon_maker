@@ -58,6 +58,11 @@ var cur_confirm : Confirmation = null
 func toggle_control_visibility(ui_part:Control):
 	ui_part.visible = not ui_part.visible
 
+func set_dropdown_items(list:Array, option_butt:OptionButton):
+	option_butt.clear()
+	for elem in list:
+		option_butt.add_item(elem)
+
 func switch_tab(tab:MenuTab):
 	UI_Parent.current_tab = tab
 
