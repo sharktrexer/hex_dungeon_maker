@@ -19,7 +19,7 @@ class AtlasTile:
 	var id_source := 0
 
 # UI 
-@onready var tile_list:ItemList = %TileList2
+@onready var tile_list:ItemList = %TestTiles
 
 # editing data
 var selected_tile: AtlasTile = AtlasTile.new()
@@ -124,7 +124,7 @@ func remove_tile():
 func clear_canvas():
 	for layer_name in room_layers:
 		room_layers[layer_name].clear()
-	#on_clear.emit()
+	
 
 ## updates this layer display with the data from load
 func set_layer_details(coords_dict: Dictionary):
