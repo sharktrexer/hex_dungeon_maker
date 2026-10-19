@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://blrnmecs4fxqp"]
 
 [ext_resource type="Script" uid="uid://bpi6hioesjmbk" path="res://Scripts/editor_controller.gd" id="1_8whw5"]
-[ext_resource type="Script" uid="uid://82j1n8gtltmb" path="res://Scripts/editor_rooms.gd" id="1_yfuoc"]
+[ext_resource type="Script" uid="uid://82j1n8gtltmb" path="res://Scripts/room_editor.gd" id="1_yfuoc"]
 [ext_resource type="TileSet" uid="uid://bvwfnvg85aece" path="res://Components/TileSets/placeables_tile_set.tres" id="2_akog7"]
 [ext_resource type="Script" uid="uid://ct7vd1mk4rlue" path="res://Scripts/camera_control.gd" id="2_l0fpw"]
 [ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="3_l0fpw"]
@@ -194,7 +194,7 @@ layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 0
 
-[node name="TileList2" type="ItemList" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs/Test" unique_id=60594759]
+[node name="TestTiles" type="ItemList" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/TileSelectUI/VBoxContainer/TileListTabs/Test" unique_id=60594759]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
@@ -578,7 +578,9 @@ item_3/text = "You're Cabbage!"
 item_3/icon = ExtResource("5_akog7")
 
 [node name="SelectedRoomPanel" type="Panel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns" unique_id=1735584142]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 100)
+custom_maximum_size = Vector2(300, -1)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_5hisy")
@@ -605,28 +607,52 @@ theme = SubResource("Theme_xkq1w")
 text = "ROOM NAME HERE"
 horizontal_alignment = 1
 
-[node name="StaticLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1704620831]
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1647630296]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=557851048]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StaticLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1704620831]
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "Stage"
 horizontal_alignment = 1
 
-[node name="RoomGroupLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1745269893]
+[node name="RoomGroupLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1745269893]
 unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
-text = "STAGE ROOM BELONGS TO HERE"
+text = "Lodge"
 horizontal_alignment = 1
 
-[node name="StaticLabel2" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1597333324]
+[node name="VBoxContainer2" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=729832508]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StaticLabel2" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1597333324]
+layout_mode = 2
+theme = SubResource("Theme_xkq1w")
+text = "Type"
+horizontal_alignment = 1
+
+[node name="RoomTypeLabel" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1573278398]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_xkq1w")
+text = "Regular"
+horizontal_alignment = 1
+
+[node name="StaticLabel4" type="Label" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=775727370]
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "Description"
 horizontal_alignment = 1
 
-[node name="RoomDesc" type="RichTextLabel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=2023299619]
+[node name="RoomDescLabel" type="RichTextLabel" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=2023299619]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"

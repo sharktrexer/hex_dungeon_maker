@@ -41,8 +41,11 @@ enum RoomTypes {
 const ACTION_TILE_PAINT = 'tile_paint'
 const ACTION_TILE_ERASE = 'tile_remove'
 
+#region Node Funcs
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	init_file_manager()
 	init_geometry()
 	init_UI()
 
@@ -73,6 +76,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		editor.remove_tile()
 		editor.is_painting = true
+
+
+
+
+#region File Mangement
+func init_file_manager():
+	# create room folders for each group
+	file_manager.create_room_folders(Stages.keys())
+
+	file_manager.grab_saved_rooms_names()
+
+	print(file_manager.saved_room_names_by_folder)
+
+	print(file_manager.get_all_room_names())
+
 
 #region Editing & Geometry
 var floor_layers : Dictionary[String, HexagonTileMapLayer]
@@ -150,9 +168,27 @@ func init_geometry():
 }
 
 func init_UI():
+	#Pass constants to UI
 	UI.bind_btns(BUTTS)
 	UI.set_dropdown_items(Stages.keys(), UI.room_group)
 	UI.set_dropdown_items(RoomTypes.keys(), UI.room_type)
+
+	update_displayed_saved_rooms()
+	
+func connect_UI_signals():
+	UI.saved_rooms_list.item_selected.connect(selected_a_saved_room)
+
+func update_displayed_saved_rooms():
+	var saved_room_names = file_manager.get_all_room_names()	
+
+	var saved_rooms_imgs
+
+	var rooms_as_items = {}
+	for _name in saved_room_names:
+
+		rooms_as_items[_name] = load('uid://0462ner2ujw6')
+
+	UI.set_item_list_items(rooms_as_items, UI.saved_rooms_list)
 
 func confirm_unsaved_progress(from_tab:UI_Controller.MenuTab, to_tab:UI_Controller.MenuTab, confirm_func:Callable=Callable()):
 
@@ -177,6 +213,10 @@ func confirm_deletion(cur_tab:UI_Controller.MenuTab, confirm_func:Callable=Calla
 
 	confirm_obj.msg = 'Are you sure you want to delete this room?'
 	UI.confirm_before_switch(confirm_obj)
+
+func selected_a_saved_room(item_index:int):
+	# get name from item list
+	pass
 
 #region Funcs
 
@@ -205,7 +245,7 @@ func load_room():
 	var r_group = 'test'
 	var r_name = 'test'
 	if not file_manager.load_room(r_group, r_name):
-		print('failed to load room')
+		push_error('failed to load room')
 		return
 
 	print('loaded a room')

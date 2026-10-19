@@ -39,11 +39,42 @@ class Confirmation:
 # temp to go back to editing ui state
 @onready var test_menu_btn := %TempMenuBtn as Button
 
+
+
+#region Editor UI
+@onready var tile_list:ItemList = %TestTiles
+
+
+#endregion
+
+
+
+#region Room Select UI
+@onready var saved_rooms_list := %AvailRoomsList as ItemList
+
+# selected room section
+@onready var selected_room_panel := %SelectedRoomPanel as Panel
+
+@onready var room_name_label := %RoomNameLabel as Label
+@onready var room_type_label := %RoomTypeLabel as Label
+@onready var room_group_label := %RoomGroupLabel as Label
+@onready var room_desc_label := %RoomDescLabel as RichTextLabel
+
+@onready var room_preview := %RoomPreviewPic as TextureRect
+@onready var variant_list := %VariantList as ItemList
+
+# btns in this UI are handled by editor controller
+#endregion
+
+
+
 #region Room Info UI
 
 @onready var room_desc := %DescEdit as TextEdit
 @onready var room_group := %StageGroupDrop as OptionButton
 @onready var room_type := %RoomTypeDrop as OptionButton
+
+
 
 #region Confirm UI
 ## confirm data being used
@@ -58,10 +89,17 @@ var cur_confirm : Confirmation = null
 func toggle_control_visibility(ui_part:Control):
 	ui_part.visible = not ui_part.visible
 
-func set_dropdown_items(list:Array, option_butt:OptionButton):
-	option_butt.clear()
+func set_dropdown_items(list:Array, dropdown:OptionButton):
+	dropdown.clear()
 	for elem in list:
-		option_butt.add_item(elem)
+		dropdown.add_item(elem)
+
+func set_item_list_items(items:Dictionary, list:ItemList):
+	# Dictionary[String, Texture2D]
+	list.clear()
+	for item_name in items.keys():
+		list.add_item(item_name, items[item_name])
+
 
 func switch_tab(tab:MenuTab):
 	UI_Parent.current_tab = tab
