@@ -22,6 +22,14 @@ class Confirmation:
 
 		on_confirm_func = confirm_func
 
+const DEFAULT_ROOM_INFO := {
+	'name' : '',
+	'desc' : '',
+	'group' : 'general',
+	'type' : 'regular',
+	'variant_of' : ''
+} as Dictionary[String, String]
+
 ## contains all menus to switch between
 @onready var UI_Parent := %UI_Switcher as TabContainer
 
@@ -70,6 +78,7 @@ class Confirmation:
 
 #region Room Info UI
 
+@onready var room_title := %TitleEdit as LineEdit
 @onready var room_desc := %DescEdit as TextEdit
 @onready var room_group := %StageGroupDrop as OptionButton
 @onready var room_type := %RoomTypeDrop as OptionButton
@@ -86,6 +95,8 @@ var cur_confirm : Confirmation = null
 
 #endregion
 
+#region Funcs
+
 func toggle_control_visibility(ui_part:Control):
 	ui_part.visible = not ui_part.visible
 
@@ -100,23 +111,43 @@ func set_item_list_items(items:Dictionary, list:ItemList):
 	for item_name in items.keys():
 		list.add_item(item_name, items[item_name])
 
+func set_dropdown_select_by_value(value:String, dropdown:OptionButton):
+	value = value.capitalize()
+	for i in dropdown.item_count:
+		if dropdown.get_item_text(i) == value:
+			dropdown.select(i)
+			return
+
+	push_error("Could not find " + value + " in dropdown " + dropdown.name)
 
 func switch_tab(tab:MenuTab):
 	UI_Parent.current_tab = tab
 
+## gets the values of the room info UI
 func get_room_info() -> Dictionary[String,String]:
-	var room_name := 'test'
 	var stage_group := room_group.get_item_text(room_group.selected).to_lower()
 	var room_t := room_type.get_item_text(room_type.selected).to_lower()
 
 	var room_info : Dictionary[String, String] = {
-		'name' : room_name,
+		'name' : room_title.text,
 		'desc' : room_desc.text,
 		'group' : stage_group,
 		'type' : room_t,
 		'variant_of' : ''
 	}
 	return room_info
+
+## sets the UI values of the room info
+func set_room_info(room_info:Dictionary):
+	# Dictionary[String, String]
+	room_title.text = room_info['name']
+	room_desc.text = room_info['desc']
+	set_dropdown_select_by_value(room_info['group'], room_group)
+	set_dropdown_select_by_value(room_info['type'], room_type)
+	# set variant info?!
+
+func clear_room_info():
+	set_room_info(DEFAULT_ROOM_INFO)
 
 func press_all_filter_btns():
 	# loop thru filte bttns and press them lmao
@@ -146,6 +177,9 @@ func bind_btns(btn_func_dict:Dictionary[String, Callable]):
 	for btn_name in btn_func_dict:
 		var butt = UI_Parent.find_child(btn_name) as Button
 		butt.button_up.connect(btn_func_dict[btn_name])
+
+func get_selected_room_name() -> String:
+	return saved_rooms_list.get_item_text(saved_rooms_list.selected)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

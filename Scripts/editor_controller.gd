@@ -41,6 +41,10 @@ enum RoomTypes {
 const ACTION_TILE_PAINT = 'tile_paint'
 const ACTION_TILE_ERASE = 'tile_remove'
 
+# data keys
+const ROOM_INFO_KEY = 'room_details'
+const ROOM_CANVAS_KEY = 'room_tile_data'
+
 #region Node Funcs
 
 # Called when the node enters the scene tree for the first time.
@@ -48,6 +52,7 @@ func _ready() -> void:
 	init_file_manager()
 	init_geometry()
 	init_UI()
+	create_blank_room()
 
 #region Input
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -179,7 +184,7 @@ func connect_UI_signals():
 	UI.saved_rooms_list.item_selected.connect(selected_a_saved_room)
 
 func update_displayed_saved_rooms():
-	var saved_room_names = file_manager.get_all_room_names()	
+	var saved_room_names := file_manager.get_all_room_names()	
 
 	var saved_rooms_imgs
 
@@ -192,10 +197,14 @@ func update_displayed_saved_rooms():
 
 func confirm_unsaved_progress(from_tab:UI_Controller.MenuTab, to_tab:UI_Controller.MenuTab, confirm_func:Callable=Callable()):
 
+	# call confirm func and switch tab if there is no progress to lose
 	if not check_for_unsaved_progress():
+		if confirm_func.is_valid():
+			confirm_func.call()
 		UI.switch_tab(to_tab)
 		return
 
+	# confirm losing progress before continuing
 	var confirm_obj := UI_Controller.Confirmation.new(
 		UI.switch_tab.bind(to_tab), 
 		UI.switch_tab.bind(from_tab), 
@@ -216,6 +225,8 @@ func confirm_deletion(cur_tab:UI_Controller.MenuTab, confirm_func:Callable=Calla
 
 func selected_a_saved_room(item_index:int):
 	# get name from item list
+	# update selected room display
+	# store room index for the selected room UI to use (load, delete, dupe, select variant)
 	pass
 
 #region Funcs
@@ -242,6 +253,9 @@ func save_room():
 
 func load_room():
 	#get selected room
+	var select_room_name = UI.get_selected_room_name()
+
+	#TODO: have file-manager load instead be by name
 	var r_group = 'test'
 	var r_name = 'test'
 	if not file_manager.load_room(r_group, r_name):
@@ -250,23 +264,30 @@ func load_room():
 
 	print('loaded a room')
 
-	editor.set_layer_details(file_manager.cur_file_data_as_dict()['room_tile_data'])
+	var loaded_dict_data = file_manager.cur_file_data_as_dict()
+
+	UI.set_room_info(loaded_dict_data[ROOM_INFO_KEY])
+	editor.set_layer_details(loaded_dict_data[ROOM_CANVAS_KEY])
 	UI.switch_tab(UI_Controller.MenuTab.Editing)
 
 func create_variant():
 	print('now editing a new variant')
-	
 
 func create_blank_room():
+	UI.clear_room_info()
+	editor.clear_canvas()
+
+	var blank_room_data = file_manager.get_data_as_string(
+		UI.get_room_info(),
+		editor.room_layers
+	)
+	file_manager.set_blank_data(blank_room_data)
 	print('now editing a blank room')
 	
 
 func delete_room():
 	#get selected room
 	print('deleted room')
-	
-
-
 	
 func dupe_room():
 	#get selected room
@@ -282,10 +303,10 @@ func open_filters_menu():
 	# set buttons pressed in UI to be what the filter list var is
 	UI.switch_tab(UI_Controller.MenuTab.Filtering)
 
-
-
+# set UI room info to current room data
 func open_info_menu():
-	# set Ui to stored data
+	var curret_room_info := file_manager.cur_file_data_as_dict()[ROOM_INFO_KEY] as Dictionary
+	UI.set_room_info(curret_room_info)
 	UI.switch_tab(UI_Controller.MenuTab.RoomInfo)
 
 func apply_info():

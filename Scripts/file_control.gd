@@ -13,6 +13,11 @@ var cur_file_data_str: String
 
 var loaded_dict_data: Dictionary
 
+## assumes this set of data is blank and not worth saving.
+## instead used to compare against blank level data to confirm no changes
+func set_blank_data(blank_data:String):
+	cur_file_data_str = blank_data
+
 func cur_file_data_as_dict():
 	return JSON.parse_string(cur_file_data_str)
 
@@ -46,8 +51,7 @@ func save_room_to_file(
 		return
 
 	# manage file movement if applicable
-	if cur_file_data_str:
-		manage_path_change(data_as_json)
+	manage_path_change(data_as_json)
 
 	# update data pointer
 	cur_file_data_str = data_as_json
@@ -62,7 +66,7 @@ func manage_path_change(new_path:String):
 	if new_path == old_path:
 		return
 
-	# TODO: delete old path file if diff
+	# TODO: if old path exists then delete old path file if diff
 	
 
 ## get the string json data of a room without altering the current edit file
@@ -182,7 +186,7 @@ func create_room_folders(group_names:Array):
 		folder_name = folder_name.to_lower()
 		DirAccess.make_dir_absolute(SAVE_ROOM_PATH + folder_name)
 
-func get_all_room_names():
+func get_all_room_names() -> Array:
 	var all_names := []
 	for name_lists in saved_room_names_by_folder.values():
 		all_names.append_array(name_lists)

@@ -1038,6 +1038,21 @@ custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 alignment = 1
 
+[node name="Label4" type="Label" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1491014626]
+layout_mode = 2
+text = "Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleEdit" type="LineEdit" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=457111682]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+placeholder_text = "Give your room a unique name :)"
+alignment = 1
+
 [node name="Label" type="Label" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=1938814120]
 layout_mode = 2
 text = "Description"
