@@ -138,7 +138,7 @@ func get_room_info() -> Dictionary[String,String]:
 	return room_info
 
 ## sets the UI values of the room info
-func set_room_info(room_info:Dictionary):
+func set_room_info(room_info:Dictionary[String,String]):
 	# Dictionary[String, String]
 	room_title.text = room_info['name']
 	room_desc.text = room_info['desc']

@@ -3,6 +3,10 @@ class_name FileController
 
 const SAVE_ROOM_PATH = 'res://RoomSaveData//'
 
+# data keys
+const ROOM_INFO_KEY = 'room_details'
+const ROOM_CANVAS_KEY = 'room_tile_data'
+
 signal on_save(path:String)
 signal on_load(path:String)
 signal failed_file_access(err_msg:String)
@@ -18,8 +22,26 @@ var loaded_dict_data: Dictionary
 func set_blank_data(blank_data:String):
 	cur_file_data_str = blank_data
 
-func cur_file_data_as_dict():
+func cur_file_data_as_dict() -> Dictionary:
 	return JSON.parse_string(cur_file_data_str)
+
+func cur_room_info_data_as_dict() -> Dictionary[String, String]:
+	var room_info_typed_dict = {} as Dictionary[String, String]
+	var untyped_dict_data = cur_file_data_as_dict()[ROOM_INFO_KEY] 
+
+	for key in untyped_dict_data:
+		room_info_typed_dict[str(key)] = str(untyped_dict_data[key])
+
+	return room_info_typed_dict
+
+func cur_room_tile_data_as_dict() -> Dictionary[String, HexagonTileMapLayer]:
+	var room_tile_typed_dict = {} as Dictionary[String, HexagonTileMapLayer]
+	var untyped_dict_data = cur_file_data_as_dict()[ROOM_CANVAS_KEY] 
+
+	for key in untyped_dict_data:
+		room_tile_typed_dict[str(key)] = untyped_dict_data[key] as HexagonTileMapLayer
+
+	return room_tile_typed_dict
 
 func get_data_as_string(
 	room_info:Dictionary[String,String], 
@@ -28,12 +50,15 @@ func get_data_as_string(
 
 	var room_tile_data = dictify_room_data(layers)
 
-	var room_data = {
-		'room_details' = room_info,
-		'room_tile_data' = room_tile_data
-	}
-
+	var room_data = {}
+	room_data[ROOM_INFO_KEY] = room_info
+	room_data[ROOM_CANVAS_KEY] = room_tile_data
+	
 	return JSON.stringify(room_data, '\t')
+
+func only_save_room_info_changes(room_info:Dictionary[String,String]):
+	var prev_saved_layer_data = cur_room_tile_data_as_dict()
+	save_room_to_file(room_info, prev_saved_layer_data)
 
 func save_room_to_file(
 	room_info:Dictionary[String,String], 
@@ -116,8 +141,8 @@ func access_room_data_from_file(file_path: String, mode:FileAccess.ModeFlags, ro
 
 func get_file_path_from_room_dict(room_data_dict:Dictionary) -> String:
 
-	var folder_name = str(room_data_dict['room_details']['group'])
-	var file_name = str(room_data_dict['room_details']['name'])
+	var folder_name = str(room_data_dict[ROOM_INFO_KEY]['group'])
+	var file_name = str(room_data_dict[ROOM_INFO_KEY]['name'])
 
 	return convert_to_room_path(folder_name, file_name)
 

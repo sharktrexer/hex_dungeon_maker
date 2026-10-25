@@ -41,10 +41,6 @@ enum RoomTypes {
 const ACTION_TILE_PAINT = 'tile_paint'
 const ACTION_TILE_ERASE = 'tile_remove'
 
-# data keys
-const ROOM_INFO_KEY = 'room_details'
-const ROOM_CANVAS_KEY = 'room_tile_data'
-
 #region Node Funcs
 
 # Called when the node enters the scene tree for the first time.
@@ -166,7 +162,7 @@ func init_geometry():
 	'LeaveSelectingBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Editing),
 
 	# Room Info Edit Menu
-	'ApplyInfoBtn' : apply_info,
+	'ApplyInfoBtn' : save_info,
 
 	'CancelInfoBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Options)
 
@@ -264,10 +260,8 @@ func load_room():
 
 	print('loaded a room')
 
-	var loaded_dict_data = file_manager.cur_file_data_as_dict()
-
-	UI.set_room_info(loaded_dict_data[ROOM_INFO_KEY])
-	editor.set_layer_details(loaded_dict_data[ROOM_CANVAS_KEY])
+	UI.set_room_info(file_manager.cur_room_info_data_as_dict())
+	editor.set_layer_details(file_manager.cur_room_tile_data_as_dict())
 	UI.switch_tab(UI_Controller.MenuTab.Editing)
 
 func create_variant():
@@ -305,11 +299,13 @@ func open_filters_menu():
 
 # set UI room info to current room data
 func open_info_menu():
-	var curret_room_info := file_manager.cur_file_data_as_dict()[ROOM_INFO_KEY] as Dictionary
+	var curret_room_info = file_manager.cur_room_info_data_as_dict()
 	UI.set_room_info(curret_room_info)
 	UI.switch_tab(UI_Controller.MenuTab.RoomInfo)
 
-func apply_info():
-	#updates vars but doesn't save
-	print('applied filters')
+func save_info():
+	var prev_room_info := file_manager.cur_room_info_data_as_dict()
+	file_manager.only_save_room_info_changes(UI.get_room_info())
+	var cur_room_info := file_manager.cur_room_info_data_as_dict()
+	print('saved room info changes from \n' + str(prev_room_info) + '\n to \n' + str(cur_room_info))
 	UI.switch_tab(UI_Controller.MenuTab.Options)
