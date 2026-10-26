@@ -80,7 +80,7 @@ func save_room_to_file(
 		return
 
 	# manage file movement if applicable
-	manage_path_change(data_as_json)
+	manage_path_change(room_file_path)
 
 	# update data pointer
 	cur_file_data_str = data_as_json
@@ -88,17 +88,21 @@ func save_room_to_file(
 	on_save.emit(room_file_path)
 	print("Canvas SAVED to ", room_file_path)
 
-## if the name or grouping of a stage is changed, delete old data and save in new place
-func manage_path_change(new_data:String):
-	var new_path = get_file_path_from_room_dict(JSON.parse_string(new_data))
+	# update internal list of saved rooms
+	grab_saved_rooms_names()
+
+## if the name or grouping of a stage is changed, delete old data if applicable
+func manage_path_change(new_path:String):
 	var old_path = get_file_path_from_room_dict(cur_file_data_as_dict())
 	if new_path == old_path:
 		return
 
-	# TODO: if old path exists then delete old path file if diff
-	
-	# update list of saved rooms
-	grab_saved_rooms_names()
+	if not FileAccess.file_exists(old_path):
+		return
+
+	DirAccess.remove_absolute(old_path)
+
+
 	
 
 ## get the string json data of a room without altering the current edit file
@@ -121,7 +125,7 @@ func load_room(room_name:String) -> bool:
 	return true
 
 ## get absolute path of file 
-func convert_to_room_path(room_folder:String, room_name:String, extension:='.json'):
+func convert_to_room_path(room_folder:String, room_name:String, extension:='.json') -> String:
 	return SAVE_ROOM_PATH + room_folder + '//' + room_name + extension
 
 func access_room_data_from_file(file_path: String, mode:FileAccess.ModeFlags, room_data_string=''):
@@ -255,11 +259,55 @@ func get_room_data_and_img(r_name:String) -> Dictionary:
 			if file_name.get_basename() == r_name:
 
 				var file_data_path = convert_to_room_path(dir, r_name)
+				var file_img_path = convert_to_room_path(dir, r_name, '.jpg')
 				return {
 					'data' : get_room_data(file_data_path),
 					'img' : get_room_img_as_texture(file_data_path)
 				}
 	return {}
+
+func delete_room(r_name:String):
+	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
+	for dir in folders:
+		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
+			if file_name.get_basename() == r_name:
+				var file_data_path := convert_to_room_path(dir, r_name)
+				var file_img_path = convert_to_room_path(dir, r_name, '.jpg')
+				DirAccess.remove_absolute(file_data_path)
+				DirAccess.remove_absolute(file_img_path)
+
+				grab_saved_rooms_names()
+				return
+
+## duplicate room files, returns name of new file if successful
+func duplicate_room(r_name:String):
+	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
+	for dir in folders:
+		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
+			if file_name.get_basename() == r_name:
+				var file_data_path := convert_to_room_path(dir, r_name)
+				var file_img_path = convert_to_room_path(dir, r_name, '.jpg')
+
+				var dupe_name = r_name + '_copy'
+				
+				var new_file_data_path := convert_to_room_path(dir, dupe_name)
+				var new_file_img_path = convert_to_room_path(dir, dupe_name, '.jpg')
+				DirAccess.copy_absolute(file_data_path, new_file_data_path)
+				DirAccess.copy_absolute(file_img_path, new_file_img_path)
+
+				grab_saved_rooms_names()
+				return
+
+
+func check_if_room_exists(r_name:String) -> bool:
+	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
+	for dir in folders:
+		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
+			if file_name.get_basename() == r_name:
+				return true
+
+	return false
+
 '''
 
 room data path

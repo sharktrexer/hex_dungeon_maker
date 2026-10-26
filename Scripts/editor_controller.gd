@@ -34,6 +34,7 @@ enum RoomTypes {
 	Regular,
 	Treasure,
 	Secret,
+	Boss,
 	Challenge
 }
 
@@ -82,6 +83,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 #region File Mangement
+
+
 func init_file_manager():
 	# create room folders for each group
 	file_manager.create_room_folders(Stages.keys())
@@ -155,7 +158,7 @@ func init_geometry():
 
 	'DupeBtn' : dupe_room,
 
-	'LoadBtn' : load_room,
+	'LoadBtn' : load_room_from_select,
  
 	'LeaveSelectingBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Editing),
 
@@ -178,18 +181,6 @@ func init_UI():
 func connect_UI_signals():
 	UI.saved_rooms_list.item_selected.connect(selected_a_saved_room)
 
-## updates saved rooms list UI
-func update_displayed_saved_rooms():
-	var saved_room_names := file_manager.get_all_room_names()	
-
-	var saved_rooms_imgs
-
-	var rooms_as_items = {}
-	for _name in saved_room_names:
-
-		rooms_as_items[_name] = load('uid://0462ner2ujw6')
-
-	UI.set_item_list_items(rooms_as_items, UI.saved_rooms_list)
 
 func confirm_unsaved_progress(from_tab:UI_Controller.MenuTab, to_tab:UI_Controller.MenuTab, confirm_func:Callable=Callable()):
 
@@ -219,18 +210,6 @@ func confirm_deletion(cur_tab:UI_Controller.MenuTab, confirm_func:Callable=Calla
 	confirm_obj.msg = 'Are you sure you want to delete this room?'
 	UI.confirm_before_switch(confirm_obj)
 
-## called from the saved rooms itemlist selected signal
-func selected_a_saved_room(item_index:int):
-	# get name from item list
-	var selected_room_name = UI.get_selected_room_name()
-	# update selected room display
-
-	var room_data = file_manager.get_room_data_and_img(selected_room_name)
-
-	var room_info_dict = JSON.parse_string(room_data['data'])['room_details']
-	# TODO: get variants
-	UI.set_selected_room_display(room_info_dict, room_data['img'], {})
-	
 
 func open_room_select_menu():
 	update_displayed_saved_rooms()
@@ -244,7 +223,40 @@ func open_room_select_menu():
 
 #region Funcs
 
+## updates saved rooms list UI
+func update_displayed_saved_rooms():
+	var saved_room_names := file_manager.get_all_room_names()	
+
+	var saved_rooms_imgs
+
+	var rooms_as_items = {}
+	for _name in saved_room_names:
+
+		rooms_as_items[_name] = load('uid://0462ner2ujw6')
+
+	UI.set_item_list_items(rooms_as_items, UI.saved_rooms_list)
+
+## called from the saved rooms itemlist selected signal
+func selected_a_saved_room(_item_index:int):
+	# get name from item list
+	var selected_room_name = UI.get_selected_room_name()
+	# update selected room display
+
+	var room_data = file_manager.get_room_data_and_img(selected_room_name)
+
+	var room_info_dict = JSON.parse_string(room_data['data'])['room_details']
+	# TODO: get variants
+	UI.set_selected_room_display(room_info_dict, room_data['img'], {})
+
+
 func check_for_unsaved_progress():
+
+	# if not blank, check if file exists
+	# in case cur progress doesn't have a file in file sys, despite having cur file data in code
+	var current_editing_name = UI.get_room_info()['name']
+	if current_editing_name != '' and not file_manager.check_if_room_exists(current_editing_name):
+		return true
+
 
 	var cur_progress_data_str = file_manager.stringify_raw_room_data(
 		UI.get_room_info(),
@@ -264,11 +276,13 @@ func save_room():
 	print('saved!')
 	UI.switch_tab(UI_Controller.MenuTab.Editing)
 
-func load_room():
-	#get selected room
+func load_room_from_select():
 	var select_room_name = UI.get_selected_room_name()
+	load_room(select_room_name)
 
-	if not file_manager.load_room(select_room_name):
+func load_room(r_name:String):
+
+	if not file_manager.load_room(r_name):
 		push_error('failed to load room')
 		return
 
@@ -295,12 +309,28 @@ func create_blank_room():
 
 func delete_room():
 	#get selected room
+	var selected_room_name = UI.get_selected_room_name()
+
+	file_manager.delete_room(selected_room_name)
+
 	print('deleted room')
+	update_displayed_saved_rooms()
 	
 func dupe_room():
-	#get selected room
+	
+	#TODO: edit room info name to have '_copy' appended
+	var selected_room_name = UI.get_selected_room_name()
+	'''
+	load room json into var using its name
+	convert to dict
+	change name to name_copy
+	save changes to file of name_copy
+	'''
+
+	file_manager.duplicate_room(selected_room_name)
+	update_displayed_saved_rooms()
+
 	print('duped the room')
-	UI.switch_tab(UI_Controller.MenuTab.Editing)
 
 func apply_filters():
 	# update filter list var
