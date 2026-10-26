@@ -109,7 +109,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ebi1f")
-current_tab = 1
+current_tab = 2
 tabs_visible = false
 
 [node name="ConfirmationMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=521924319]
@@ -159,6 +159,7 @@ size_flags_horizontal = 3
 text = "ABORT"
 
 [node name="EditingHUD" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1855146340]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m46tu")
@@ -495,7 +496,6 @@ layout_mode = 2
 text = "Menu"
 
 [node name="RoomSelectMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1539163136]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

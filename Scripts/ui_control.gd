@@ -179,7 +179,24 @@ func bind_btns(btn_func_dict:Dictionary[String, Callable]):
 		butt.button_up.connect(btn_func_dict[btn_name])
 
 func get_selected_room_name() -> String:
-	return saved_rooms_list.get_item_text(saved_rooms_list.selected)
+	return saved_rooms_list.get_item_text(saved_rooms_list.get_selected_items()[0])
+
+func set_selected_room_display(
+	selected_room:Dictionary, 
+	room_img:Texture2D, 
+	variants:Dictionary[String, Texture2D]):
+
+	# set labels
+	room_name_label.text = selected_room['name']
+	room_type_label.text = selected_room['type']
+	room_group_label.text = selected_room['group']
+	room_desc_label.text = selected_room['desc']
+
+	# set img preview
+	room_preview
+
+	# set variant item list
+	variant_list
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

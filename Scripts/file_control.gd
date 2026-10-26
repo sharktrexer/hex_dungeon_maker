@@ -34,41 +34,45 @@ func cur_room_info_data_as_dict() -> Dictionary[String, String]:
 
 	return room_info_typed_dict
 
-func cur_room_tile_data_as_dict() -> Dictionary[String, HexagonTileMapLayer]:
-	var room_tile_typed_dict = {} as Dictionary[String, HexagonTileMapLayer]
-	var untyped_dict_data = cur_file_data_as_dict()[ROOM_CANVAS_KEY] 
+func cur_room_tile_data_as_dict() -> Dictionary:
+	return cur_file_data_as_dict()[ROOM_CANVAS_KEY] 
 
-	for key in untyped_dict_data:
-		room_tile_typed_dict[str(key)] = untyped_dict_data[key] as HexagonTileMapLayer
-
-	return room_tile_typed_dict
-
-func get_data_as_string(
+## convert raw HexagonTileMapLayer data of room  with its info to string json
+func stringify_raw_room_data(
 	room_info:Dictionary[String,String], 
 	layers: Dictionary[String, HexagonTileMapLayer]
 	):
 
-	var room_tile_data = dictify_room_data(layers)
+	var room_tile_data = dictify_room_layer_data(layers)
+	
+	return stringify_room_data(room_info, room_tile_data)
 
+## groups each dict of data under a key and stringifies it
+func stringify_room_data(
+	room_info:Dictionary[String,String], 
+	room_tile_data: Dictionary
+	):
 	var room_data = {}
 	room_data[ROOM_INFO_KEY] = room_info
 	room_data[ROOM_CANVAS_KEY] = room_tile_data
 	
-	return JSON.stringify(room_data, '\t')
+	return JSON.stringify(room_data, '\t')	
 
+## save to file the changed room info with the unchanged, dictified layer data
 func only_save_room_info_changes(room_info:Dictionary[String,String]):
 	var prev_saved_layer_data = cur_room_tile_data_as_dict()
-	save_room_to_file(room_info, prev_saved_layer_data)
+	save_room_to_file(room_info, prev_saved_layer_data, false)
 
 func save_room_to_file(
 	room_info:Dictionary[String,String], 
-	layers: Dictionary[String, HexagonTileMapLayer]
+	layer_data: Dictionary,
+	is_layer_data_raw=true
 	):
 
 	# get path and data
 	var room_file_path = convert_to_room_path(room_info['group'], room_info['name'])
 	
-	var data_as_json = get_data_as_string(room_info, layers)
+	var data_as_json = stringify_raw_room_data(room_info, layer_data) if is_layer_data_raw else stringify_room_data(room_info, layer_data)
 
 	# attempt save
 	var success_msg = access_room_data_from_file(room_file_path, FileAccess.WRITE, data_as_json)
@@ -85,13 +89,16 @@ func save_room_to_file(
 	print("Canvas SAVED to ", room_file_path)
 
 ## if the name or grouping of a stage is changed, delete old data and save in new place
-func manage_path_change(new_path:String):
-
+func manage_path_change(new_data:String):
+	var new_path = get_file_path_from_room_dict(JSON.parse_string(new_data))
 	var old_path = get_file_path_from_room_dict(cur_file_data_as_dict())
 	if new_path == old_path:
 		return
 
 	# TODO: if old path exists then delete old path file if diff
+	
+	# update list of saved rooms
+	grab_saved_rooms_names()
 	
 
 ## get the string json data of a room without altering the current edit file
@@ -99,15 +106,15 @@ func get_room_data(path:String) -> String:
 	return access_room_data_from_file(path, FileAccess.READ) 
 
 ## get room data and load it to the current editing file
-func load_room(room_folder:String, room_name:String) -> bool:
+func load_room(room_name:String) -> bool:
 
-	var room_path = convert_to_room_path(room_folder, room_name)
-
-	var loaded_data := get_room_data(room_path)
+	var loaded_data := get_room_data_by_name(room_name)
 	if loaded_data == '':
 		return false
 
 	cur_file_data_str = loaded_data 
+
+	var room_path = get_file_path_from_room_dict(cur_file_data_as_dict())
 
 	on_load.emit(room_path)
 	print('LOADING complete from ', room_path)
@@ -127,7 +134,7 @@ func access_room_data_from_file(file_path: String, mode:FileAccess.ModeFlags, ro
 
 	if room_file == null:
 		failed_file_access.emit(error_string(FileAccess.get_open_error()))
-		print(error_string(FileAccess.get_open_error()))
+		push_error(error_string(FileAccess.get_open_error()))
 		return ''
 
 	if mode == FileAccess.READ:
@@ -148,7 +155,7 @@ func get_file_path_from_room_dict(room_data_dict:Dictionary) -> String:
 
 ## converts the tile data of each layer into a dictionary 
 ## that groups each tile per layer by their shared coord
-static func dictify_room_data(layers: Dictionary) -> Dictionary:
+static func dictify_room_layer_data(layers: Dictionary) -> Dictionary:
 
 	var map_data := {}
 
@@ -228,6 +235,31 @@ func get_room_data_by_name(r_name:String) -> String:
 				return get_room_data(file_data_path)
 				
 	return ''
+
+
+func get_room_img_as_texture(path:String) -> Texture2D:
+	var img = Image.load_from_file(path)
+
+	if img == null:
+		push_error("Failed to load iamge from " + path)
+		return load('uid://0462ner2ujw6')
+
+	var texture = ImageTexture.create_from_image(img)
+	return texture
+
+## returns a Dictionary containing the room [data] and its [img]
+func get_room_data_and_img(r_name:String) -> Dictionary:
+	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
+	for dir in folders:
+		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
+			if file_name.get_basename() == r_name:
+
+				var file_data_path = convert_to_room_path(dir, r_name)
+				return {
+					'data' : get_room_data(file_data_path),
+					'img' : get_room_img_as_texture(file_data_path)
+				}
+	return {}
 '''
 
 room data path

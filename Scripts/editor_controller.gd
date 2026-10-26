@@ -136,9 +136,7 @@ func init_geometry():
 
 	'InfoEditBtn' : open_info_menu,
 
-	'SelectRoomBtn' : confirm_unsaved_progress.bind(
-		UI_Controller.MenuTab.Options,
-		UI_Controller.MenuTab.RoomSelect),
+	'SelectRoomBtn' : open_room_select_menu,
 
 	'NewRoomBtn' : confirm_unsaved_progress.bind(
 		UI_Controller.MenuTab.Options, 
@@ -162,7 +160,7 @@ func init_geometry():
 	'LeaveSelectingBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Editing),
 
 	# Room Info Edit Menu
-	'ApplyInfoBtn' : save_info,
+	'ApplyInfoBtn' : save_room_info,
 
 	'CancelInfoBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Options)
 
@@ -175,10 +173,12 @@ func init_UI():
 	UI.set_dropdown_items(RoomTypes.keys(), UI.room_type)
 
 	update_displayed_saved_rooms()
+	connect_UI_signals()
 	
 func connect_UI_signals():
 	UI.saved_rooms_list.item_selected.connect(selected_a_saved_room)
 
+## updates saved rooms list UI
 func update_displayed_saved_rooms():
 	var saved_room_names := file_manager.get_all_room_names()	
 
@@ -221,15 +221,29 @@ func confirm_deletion(cur_tab:UI_Controller.MenuTab, confirm_func:Callable=Calla
 
 func selected_a_saved_room(item_index:int):
 	# get name from item list
+	var selected_room_name = UI.get_selected_room_name()
 	# update selected room display
-	# store room index for the selected room UI to use (load, delete, dupe, select variant)
-	pass
+
+	var room_data = file_manager.get_room_data_and_img(selected_room_name)
+
+	var room_info_dict = JSON.parse_string(room_data['data'])['room_details']
+	# TODO: get variants
+	UI.set_selected_room_display(room_info_dict, room_data['img'], {})
+	
+
+func open_room_select_menu():
+	update_displayed_saved_rooms()
+
+	confirm_unsaved_progress(
+		UI_Controller.MenuTab.Options,
+		UI_Controller.MenuTab.RoomSelect)
+
 
 #region Funcs
 
 func check_for_unsaved_progress():
 
-	var cur_progress_data_str = file_manager.get_data_as_string(
+	var cur_progress_data_str = file_manager.stringify_raw_room_data(
 		UI.get_room_info(),
 		editor.room_layers
 	)
@@ -251,10 +265,7 @@ func load_room():
 	#get selected room
 	var select_room_name = UI.get_selected_room_name()
 
-	#TODO: have file-manager load instead be by name
-	var r_group = 'test'
-	var r_name = 'test'
-	if not file_manager.load_room(r_group, r_name):
+	if not file_manager.load_room(select_room_name):
 		push_error('failed to load room')
 		return
 
@@ -271,7 +282,7 @@ func create_blank_room():
 	UI.clear_room_info()
 	editor.clear_canvas()
 
-	var blank_room_data = file_manager.get_data_as_string(
+	var blank_room_data = file_manager.stringify_raw_room_data(
 		UI.get_room_info(),
 		editor.room_layers
 	)
@@ -303,9 +314,10 @@ func open_info_menu():
 	UI.set_room_info(curret_room_info)
 	UI.switch_tab(UI_Controller.MenuTab.RoomInfo)
 
-func save_info():
+func save_room_info():
 	var prev_room_info := file_manager.cur_room_info_data_as_dict()
 	file_manager.only_save_room_info_changes(UI.get_room_info())
 	var cur_room_info := file_manager.cur_room_info_data_as_dict()
+
 	print('saved room info changes from \n' + str(prev_room_info) + '\n to \n' + str(cur_room_info))
 	UI.switch_tab(UI_Controller.MenuTab.Options)

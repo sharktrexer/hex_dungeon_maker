@@ -129,6 +129,8 @@ func clear_canvas():
 ## updates this layer display with the data from load
 func set_layer_details(coords_dict: Dictionary):
 
+	clear_canvas()
+
 	for coord in coords_dict:
 		var pos_vect: Vector2i = str_to_var('Vector2i'+coord)
 
