@@ -109,7 +109,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ebi1f")
-current_tab = 2
+current_tab = 5
 tabs_visible = false
 
 [node name="ConfirmationMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=521924319]
@@ -496,6 +496,7 @@ layout_mode = 2
 text = "Menu"
 
 [node name="RoomSelectMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1539163136]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -1022,7 +1023,6 @@ text = "Resume"
 text_overrun_behavior = 3
 
 [node name="RoomInfoMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=890038025]
-visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 metadata/_tab_index = 5
@@ -1112,10 +1112,11 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Apply"
+text = "Done"
 
 [node name="CancelInfoBtn" type="Button" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1127489320]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Cancel"

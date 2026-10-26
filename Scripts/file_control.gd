@@ -59,9 +59,9 @@ func stringify_room_data(
 	return JSON.stringify(room_data, '\t')	
 
 ## save to file the changed room info with the unchanged, dictified layer data
-func only_save_room_info_changes(room_info:Dictionary[String,String]):
-	var prev_saved_layer_data = cur_room_tile_data_as_dict()
-	save_room_to_file(room_info, prev_saved_layer_data, false)
+# func only_save_room_info_changes(room_info:Dictionary[String,String]):
+# 	var prev_saved_layer_data = cur_room_tile_data_as_dict()
+# 	save_room_to_file(room_info, prev_saved_layer_data, false)
 
 func save_room_to_file(
 	room_info:Dictionary[String,String], 

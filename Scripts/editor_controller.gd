@@ -134,7 +134,7 @@ func init_geometry():
 	# Option Menu
 	'SaveBtn' : save_room,
 
-	'InfoEditBtn' : open_info_menu,
+	'InfoEditBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.RoomInfo),
 
 	'SelectRoomBtn' : open_room_select_menu,
 
@@ -160,7 +160,7 @@ func init_geometry():
 	'LeaveSelectingBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Editing),
 
 	# Room Info Edit Menu
-	'ApplyInfoBtn' : save_room_info,
+	'ApplyInfoBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Options),
 
 	'CancelInfoBtn' : UI.switch_tab.bind(UI_Controller.MenuTab.Options)
 
@@ -219,6 +219,7 @@ func confirm_deletion(cur_tab:UI_Controller.MenuTab, confirm_func:Callable=Calla
 	confirm_obj.msg = 'Are you sure you want to delete this room?'
 	UI.confirm_before_switch(confirm_obj)
 
+## called from the saved rooms itemlist selected signal
 func selected_a_saved_room(item_index:int):
 	# get name from item list
 	var selected_room_name = UI.get_selected_room_name()
@@ -233,6 +234,8 @@ func selected_a_saved_room(item_index:int):
 
 func open_room_select_menu():
 	update_displayed_saved_rooms()
+
+	UI.set_visiblity_selected_room_panel(false)
 
 	confirm_unsaved_progress(
 		UI_Controller.MenuTab.Options,
@@ -309,15 +312,15 @@ func open_filters_menu():
 	UI.switch_tab(UI_Controller.MenuTab.Filtering)
 
 # set UI room info to current room data
-func open_info_menu():
-	var curret_room_info = file_manager.cur_room_info_data_as_dict()
-	UI.set_room_info(curret_room_info)
-	UI.switch_tab(UI_Controller.MenuTab.RoomInfo)
+# func open_info_menu():
+# 	var curret_room_info := file_manager.cur_room_info_data_as_dict()
+# 	UI.set_room_info(curret_room_info)
+# 	UI.switch_tab(UI_Controller.MenuTab.RoomInfo)
 
-func save_room_info():
-	var prev_room_info := file_manager.cur_room_info_data_as_dict()
-	file_manager.only_save_room_info_changes(UI.get_room_info())
-	var cur_room_info := file_manager.cur_room_info_data_as_dict()
+# func save_room_info():
+# 	var prev_room_info := file_manager.cur_room_info_data_as_dict()
+# 	file_manager.only_save_room_info_changes(UI.get_room_info())
+# 	var cur_room_info := file_manager.cur_room_info_data_as_dict()
 
-	print('saved room info changes from \n' + str(prev_room_info) + '\n to \n' + str(cur_room_info))
-	UI.switch_tab(UI_Controller.MenuTab.Options)
+# 	print('saved room info changes from \n' + str(prev_room_info) + '\n to \n' + str(cur_room_info))
+# 	UI.switch_tab(UI_Controller.MenuTab.Options)

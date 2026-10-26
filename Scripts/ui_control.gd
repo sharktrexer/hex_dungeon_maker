@@ -100,6 +100,9 @@ var cur_confirm : Confirmation = null
 func toggle_control_visibility(ui_part:Control):
 	ui_part.visible = not ui_part.visible
 
+func set_visiblity_selected_room_panel(is_visible:bool):
+	selected_room_panel.visible = is_visible
+
 func set_dropdown_items(list:Array, dropdown:OptionButton):
 	dropdown.clear()
 	for elem in list:
@@ -197,6 +200,8 @@ func set_selected_room_display(
 
 	# set variant item list
 	variant_list
+
+	set_visiblity_selected_room_panel(true)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
