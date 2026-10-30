@@ -194,9 +194,9 @@ static func dictify_room_layer_data(layers: Dictionary) -> Dictionary:
 				layer_coord_data[key] = null
 			else:
 				layer_coord_data[key] = {
-					'atlas_coord' : layers[key].get_cell_atlas_coords(coord),
-					'source_id' : layers[key].get_cell_source_id(coord),
-					'alt_id' : layers[key].get_cell_alternative_tile(coord),
+					'atlas_coord' : str(layers[key].get_cell_atlas_coords(coord)),
+					'source_id' : str(layers[key].get_cell_source_id(coord)),
+					'alt_id' : str(layers[key].get_cell_alternative_tile(coord)),
 				}
 			
 		map_data[str(coord)] = layer_coord_data
@@ -230,22 +230,16 @@ func get_all_room_names() -> Array:
 
 
 func get_room_data_by_name(r_name:String) -> String:
-	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
-	for dir in folders:
-		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
-			if file_name.get_basename() == r_name:
 
-				var file_data_path = convert_to_room_path(dir, r_name)
-				return get_room_data(file_data_path)
-				
-	return ''
+	return get_room_data(get_file_path_by_name(r_name))
+
 
 
 func get_room_img_as_texture(path:String) -> Texture2D:
 	var img = Image.load_from_file(path)
 
 	if img == null:
-		push_error("Failed to load iamge from " + path)
+		push_error("Failed to load image from " + path)
 		return load('uid://0462ner2ujw6')
 
 	var texture = ImageTexture.create_from_image(img)
@@ -253,31 +247,22 @@ func get_room_img_as_texture(path:String) -> Texture2D:
 
 ## returns a Dictionary containing the room [data] and its [img]
 func get_room_data_and_img(r_name:String) -> Dictionary:
-	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
-	for dir in folders:
-		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
-			if file_name.get_basename() == r_name:
-
-				var file_data_path = convert_to_room_path(dir, r_name)
-				var file_img_path = convert_to_room_path(dir, r_name, '.jpg')
-				return {
-					'data' : get_room_data(file_data_path),
-					'img' : get_room_img_as_texture(file_data_path)
-				}
-	return {}
+	var file_data_path = get_file_path_by_name(r_name)
+	var file_img_path = get_img_path_by_room_path(file_data_path)
+	return {
+		'data' : get_room_data(file_data_path),
+		'img' : get_room_img_as_texture(file_img_path)
+	}
 
 func delete_room(r_name:String):
-	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
-	for dir in folders:
-		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
-			if file_name.get_basename() == r_name:
-				var file_data_path := convert_to_room_path(dir, r_name)
-				var file_img_path = convert_to_room_path(dir, r_name, '.jpg')
-				DirAccess.remove_absolute(file_data_path)
-				DirAccess.remove_absolute(file_img_path)
+	
+	var file_data_path := get_file_path_by_name(r_name)
+	var file_img_path = get_img_path_by_room_path(file_data_path)
+	DirAccess.remove_absolute(file_data_path)
+	DirAccess.remove_absolute(file_img_path)
 
-				grab_saved_rooms_names()
-				return
+	grab_saved_rooms_names()
+	return
 
 ## duplicate room files, returns name of new file if successful
 func duplicate_room(r_name:String):
@@ -298,15 +283,22 @@ func duplicate_room(r_name:String):
 				grab_saved_rooms_names()
 				return
 
-
 func check_if_room_exists(r_name:String) -> bool:
+	return get_file_path_by_name(r_name) != ''
+
+
+func get_file_path_by_name(r_name:String) -> String:
 	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
 	for dir in folders:
 		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
 			if file_name.get_basename() == r_name:
-				return true
+				return convert_to_room_path(dir, r_name)
 
-	return false
+	return ''
+
+func get_img_path_by_room_path(path:String) -> String:
+	return path.get_basename() + '.jpg'
+
 
 '''
 
