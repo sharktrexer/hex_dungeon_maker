@@ -93,6 +93,8 @@ var cur_confirm : Confirmation = null
 @onready var confirm_btn = %ConfirmBtn as Button
 @onready var abort_btn = %AbortBtn as Button
 
+@onready var set_dupe_name_popup := %SetDupeNameMenu as ConfirmNewName
+
 #endregion
 
 #region Funcs
