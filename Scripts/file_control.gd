@@ -23,7 +23,11 @@ func set_blank_data(blank_data:String):
 	cur_file_data_str = blank_data
 
 func cur_file_data_as_dict() -> Dictionary:
-	return JSON.parse_string(cur_file_data_str)
+	return convert_json_to_dict(cur_file_data_str)
+
+# uses JSON parse string
+func convert_json_to_dict(json:String)-> Dictionary:
+	return JSON.parse_string(json)
 
 func cur_room_info_data_as_dict() -> Dictionary[String, String]:
 	var room_info_typed_dict = {} as Dictionary[String, String]
@@ -36,6 +40,37 @@ func cur_room_info_data_as_dict() -> Dictionary[String, String]:
 
 func cur_room_tile_data_as_dict() -> Dictionary:
 	return cur_file_data_as_dict()[ROOM_CANVAS_KEY] 
+
+func dupe_room_with_new_name(dupee_name:String, new_name:String):
+
+	'''
+	load room json into var using its name
+	convert to dict
+	change name to name_copy
+	save changes to file of name_copy
+	'''
+
+	#TODO: copies a lot from save room func. maybe fix
+
+	var dupee_dict_data := convert_json_to_dict(get_room_data_by_name(dupee_name))
+
+	dupee_dict_data[ROOM_INFO_KEY]['name'] = new_name
+
+	var new_file_path = get_file_path_from_room_dict(dupee_dict_data)
+
+	var duped_room_json = JSON.stringify(dupee_dict_data, '\t')	
+
+	# attempt save
+	var success_msg = access_room_data_from_file(new_file_path, FileAccess.WRITE, duped_room_json)
+	if success_msg == '':
+		return
+
+	on_save.emit(new_file_path)
+	print("Canvas SAVED to ", new_file_path)
+
+	# update internal list of saved rooms
+	update_saved_rooms_names()
+
 
 ## convert raw HexagonTileMapLayer data of room  with its info to string json
 func stringify_raw_room_data(
@@ -89,7 +124,7 @@ func save_room_to_file(
 	print("Canvas SAVED to ", room_file_path)
 
 	# update internal list of saved rooms
-	grab_saved_rooms_names()
+	update_saved_rooms_names()
 
 ## if the name or grouping of a stage is changed, delete old data if applicable
 func manage_path_change(new_path:String):
@@ -206,7 +241,7 @@ static func dictify_room_layer_data(layers: Dictionary) -> Dictionary:
 
 ## gets all file paths of rooms
 ## call anytime a new room file is created or has its path changed
-func grab_saved_rooms_names():
+func update_saved_rooms_names():
 	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
 	for dir in folders:
 		var file_names: PackedStringArray = []
@@ -261,27 +296,27 @@ func delete_room(r_name:String):
 	DirAccess.remove_absolute(file_data_path)
 	DirAccess.remove_absolute(file_img_path)
 
-	grab_saved_rooms_names()
+	update_saved_rooms_names()
 	return
 
 ## duplicate room files, returns name of new file if successful
-func duplicate_room(r_name:String):
-	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
-	for dir in folders:
-		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
-			if file_name.get_basename() == r_name:
-				var file_data_path := convert_to_room_path(dir, r_name)
-				var file_img_path = convert_to_room_path(dir, r_name, '.jpg')
+# func duplicate_room(r_name:String):
+# 	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
+# 	for dir in folders:
+# 		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
+# 			if file_name.get_basename() == r_name:
+# 				var file_data_path := convert_to_room_path(dir, r_name)
+# 				var file_img_path = convert_to_room_path(dir, r_name, '.jpg')
 
-				var dupe_name = r_name + '_copy'
+# 				var dupe_name = r_name + '_copy'
 				
-				var new_file_data_path := convert_to_room_path(dir, dupe_name)
-				var new_file_img_path = convert_to_room_path(dir, dupe_name, '.jpg')
-				DirAccess.copy_absolute(file_data_path, new_file_data_path)
-				DirAccess.copy_absolute(file_img_path, new_file_img_path)
+# 				var new_file_data_path := convert_to_room_path(dir, dupe_name)
+# 				var new_file_img_path = convert_to_room_path(dir, dupe_name, '.jpg')
+# 				DirAccess.copy_absolute(file_data_path, new_file_data_path)
+# 				DirAccess.copy_absolute(file_img_path, new_file_img_path)
 
-				grab_saved_rooms_names()
-				return
+# 				update_saved_rooms_names()
+# 				return
 
 func check_if_room_exists(r_name:String) -> bool:
 	return get_file_path_by_name(r_name) != ''

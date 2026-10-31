@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://8qi0lwd2frv" path="res://Graphics/UI_Elements/stage_icons/beach.png" id="17_ebi1f"]
 [ext_resource type="Texture2D" uid="uid://drcjx2sftkdaa" path="res://Graphics/UI_Elements/stage_icons/suzano.png" id="18_ovspo"]
 [ext_resource type="Texture2D" uid="uid://ct88sl67vv7ex" path="res://Graphics/UI_Elements/stage_icons/psych.png" id="22_b35yk"]
+[ext_resource type="Script" uid="uid://dl6acd3d3uuub" path="res://Scenes/confirm_new_name.gd" id="24_f6i3a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebi1f"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -100,6 +101,7 @@ script = ExtResource("3_l0fpw")
 metadata/_custom_type_script = "uid://buj6ft1vvdf2f"
 
 [node name="EditorLayer" type="CanvasLayer" parent="." unique_id=1163413577]
+layer = 0
 
 [node name="UI_Switcher" type="TabContainer" parent="EditorLayer" unique_id=1157048]
 unique_name_in_owner = true
@@ -109,7 +111,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ebi1f")
-current_tab = 5
+current_tab = 2
 tabs_visible = false
 
 [node name="ConfirmationMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=521924319]
@@ -496,7 +498,6 @@ layout_mode = 2
 text = "Menu"
 
 [node name="RoomSelectMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1539163136]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -1023,6 +1024,7 @@ text = "Resume"
 text_overrun_behavior = 3
 
 [node name="RoomInfoMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=890038025]
+visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 metadata/_tab_index = 5
@@ -1121,36 +1123,64 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Cancel"
 
-[node name="RoomSelectMenu" type="CanvasLayer" parent="." unique_id=1908603114]
-layer = 2
+[node name="DupeARoom" type="CanvasLayer" parent="." unique_id=1029803382]
+
+[node name="SetDupeNameMenu" type="PanelContainer" parent="DupeARoom" unique_id=468101281]
+unique_name_in_owner = true
 visible = false
-
-[node name="TabPanel" type="TabContainer" parent="RoomSelectMenu" unique_id=915831557]
-offset_right = 1152.0
-offset_bottom = 648.0
-current_tab = 0
-tabs_visible = false
-
-[node name="SearchSettingsMenu" type="PanelContainer" parent="RoomSelectMenu/TabPanel" unique_id=1260237574]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="TileFilterMenu" type="CanvasLayer" parent="." unique_id=833085147]
-visible = false
-
-[node name="OptionsMenu" type="CanvasLayer" parent="." unique_id=1029803382]
-visible = false
-
-[node name="ConfirmationMenu" type="CanvasLayer" parent="." unique_id=801953921]
-visible = false
-
-[node name="InfoEditMenu" type="CanvasLayer" parent="." unique_id=1063762766]
-visible = false
-
-[node name="Control" type="Control" parent="InfoEditMenu" unique_id=422980200]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("24_f6i3a")
+metadata/_tab_index = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="DupeARoom/SetDupeNameMenu" unique_id=1058449688]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DupeARoom/SetDupeNameMenu/PanelContainer" unique_id=1102144129]
+layout_mode = 2
+
+[node name="label" type="RichTextLabel" parent="DupeARoom/SetDupeNameMenu/PanelContainer/VBoxContainer" unique_id=751095667]
+layout_mode = 2
+size_flags_vertical = 3
+text = "What name u given this dupe!?!?!?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NewNameEdit" type="LineEdit" parent="DupeARoom/SetDupeNameMenu/PanelContainer/VBoxContainer" unique_id=44863058]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Your name here"
+alignment = 1
+max_length = 64
+emoji_menu_enabled = false
+
+[node name="MarginContainer" type="MarginContainer" parent="DupeARoom/SetDupeNameMenu/PanelContainer/VBoxContainer" unique_id=669290450]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DupeARoom/SetDupeNameMenu/PanelContainer/VBoxContainer/MarginContainer" unique_id=953071535]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ConfirmButt" type="Button" parent="DupeARoom/SetDupeNameMenu/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=454503196]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Confirm"
+
+[node name="CancelButt" type="Button" parent="DupeARoom/SetDupeNameMenu/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1601361853]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ABORT"

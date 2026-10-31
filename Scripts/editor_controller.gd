@@ -89,7 +89,7 @@ func init_file_manager():
 	# create room folders for each group
 	file_manager.create_room_folders(Stages.keys())
 
-	file_manager.grab_saved_rooms_names()
+	file_manager.update_saved_rooms_names()
 
 	print(file_manager.saved_room_names_by_folder)
 
@@ -156,7 +156,7 @@ func init_geometry():
 	# Room Select Menu
 	'DeleteBtn' : confirm_deletion.bind(UI_Controller.MenuTab.RoomSelect, delete_room),
 
-	'DupeBtn' : dupe_room,
+	'DupeBtn' : open_dupe_name_popup,
 
 	'LoadBtn' : load_room_from_select,
  
@@ -179,6 +179,8 @@ func init_UI():
 	connect_UI_signals()
 	
 func connect_UI_signals():
+	UI.set_dupe_name_popup.input_submitted.connect(dupe_room)
+
 	UI.saved_rooms_list.item_selected.connect(selected_a_saved_room)
 
 
@@ -220,6 +222,8 @@ func open_room_select_menu():
 		UI_Controller.MenuTab.Options,
 		UI_Controller.MenuTab.RoomSelect)
 
+func open_dupe_name_popup():
+	UI.set_dupe_name_popup.open()
 
 #region Funcs
 
@@ -244,9 +248,13 @@ func selected_a_saved_room(_item_index:int):
 
 	var room_data = file_manager.get_room_data_and_img(selected_room_name)
 
+	# TODO: get room info as dict without using string keys
 	var room_info_dict = JSON.parse_string(room_data['data'])['room_details']
+
 	# TODO: get variants
-	UI.set_selected_room_display(room_info_dict, room_data['img'], {})
+	var room_variants : Dictionary[String, Texture2D] = {}
+
+	UI.set_selected_room_display(room_info_dict, room_data['img'], room_variants)
 
 
 func check_for_unsaved_progress():
@@ -268,10 +276,14 @@ func check_for_unsaved_progress():
 func save_room():
 	var room_info = UI.get_room_info()
 	
+	#TODO: check that name is not blank and is unique
+
+	#TODO: create texture image of room and save
 	file_manager.save_room_to_file(
 		room_info,
 		editor.room_layers,
 	)
+
 
 	print('saved!')
 	UI.switch_tab(UI_Controller.MenuTab.Editing)
@@ -316,18 +328,12 @@ func delete_room():
 	print('deleted room')
 	update_displayed_saved_rooms()
 	
-func dupe_room():
-	
-	#TODO: edit room info name to have '_copy' appended
-	var selected_room_name = UI.get_selected_room_name()
-	'''
-	load room json into var using its name
-	convert to dict
-	change name to name_copy
-	save changes to file of name_copy
-	'''
+func dupe_room(new_name:String):
 
-	file_manager.duplicate_room(selected_room_name)
+	# don't include variant data
+	var selected_room_name = UI.get_selected_room_name()
+
+	file_manager.dupe_room_with_new_name(selected_room_name, new_name)
 	update_displayed_saved_rooms()
 
 	print('duped the room')
