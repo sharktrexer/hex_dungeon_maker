@@ -565,11 +565,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+text_overrun_behavior = 1
 item_count = 4
 max_columns = 4
 same_column_width = true
 icon_mode = 0
-icon_scale = 1.615
+fixed_icon_size = Vector2i(128, 128)
 item_0/text = "Create NEW!!!!!"
 item_0/icon = ExtResource("7_k4o0l")
 item_1/text = "Dusty Musty Busty"
@@ -608,6 +609,7 @@ layout_mode = 2
 theme = SubResource("Theme_xkq1w")
 text = "ROOM NAME HERE"
 horizontal_alignment = 1
+text_overrun_behavior = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=1647630296]
 layout_mode = 2
@@ -667,8 +669,10 @@ horizontal_alignment = 1
 
 [node name="RoomPreviewPic" type="TextureRect" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=2003099614]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 150)
+custom_minimum_size = Vector2(280, 150)
+custom_maximum_size = Vector2(280, 150)
 layout_mode = 2
+size_flags_vertical = 6
 texture = ExtResource("5_akog7")
 
 [node name="VariantRows" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomSelectMenu/MainColumns/SelectedRoomPanel/MarginContainer/VBoxContainer" unique_id=664825678]

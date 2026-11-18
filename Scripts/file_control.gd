@@ -106,6 +106,11 @@ func save_room_to_file(
 
 	# get path and data
 	var room_file_path = convert_to_room_path(room_info['group'], room_info['name'])
+
+	var img_path = get_img_path_by_room_path(room_file_path)
+	await RenderingServer.frame_post_draw
+	var img := get_viewport().get_texture().get_image()
+	img.save_jpg(img_path)
 	
 	var data_as_json = stringify_raw_room_data(room_info, layer_data) if is_layer_data_raw else stringify_room_data(room_info, layer_data)
 
@@ -239,13 +244,17 @@ static func dictify_room_layer_data(layers: Dictionary) -> Dictionary:
 	return map_data
 
 
-## gets all file paths of rooms
+## gets all file paths of room jsons
 ## call anytime a new room file is created or has its path changed
 func update_saved_rooms_names():
 	var folders := DirAccess.get_directories_at(SAVE_ROOM_PATH)
 	for dir in folders:
 		var file_names: PackedStringArray = []
-		for file_name in DirAccess.get_files_at(SAVE_ROOM_PATH + dir):
+		var files := DirAccess.get_files_at(SAVE_ROOM_PATH + dir)
+		for file_name in files:
+			var f_exten = file_name.get_extension()
+			if f_exten == 'jpg' or f_exten == 'import':
+				continue
 			file_names.append(file_name.get_basename())
 
 		saved_room_names_by_folder[dir] = file_names

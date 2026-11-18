@@ -230,13 +230,13 @@ func open_dupe_name_popup():
 ## updates saved rooms list UI
 func update_displayed_saved_rooms():
 	var saved_room_names := file_manager.get_all_room_names()	
-
+	
 	var saved_rooms_imgs
 
 	var rooms_as_items = {}
 	for _name in saved_room_names:
-
-		rooms_as_items[_name] = load('uid://0462ner2ujw6')
+		#TODO: this rlly inefficient
+		rooms_as_items[_name] = file_manager.get_room_data_and_img(_name)['img']
 
 	UI.set_item_list_items(rooms_as_items, UI.saved_rooms_list)
 
@@ -279,11 +279,15 @@ func save_room():
 	#TODO: check that name is not blank and is unique
 
 	#TODO: create texture image of room and save
-	file_manager.save_room_to_file(
+
+	UI.toggle_control_visibility(UI.UI_Parent)
+
+	await file_manager.save_room_to_file(
 		room_info,
 		editor.room_layers,
 	)
 
+	UI.toggle_control_visibility(UI.UI_Parent)
 
 	print('saved!')
 	UI.switch_tab(UI_Controller.MenuTab.Editing)

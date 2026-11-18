@@ -198,7 +198,7 @@ func set_selected_room_display(
 	room_desc_label.text = selected_room['desc']
 
 	# set img preview
-	room_preview
+	room_preview.texture = room_img
 
 	# set variant item list
 	variant_list
