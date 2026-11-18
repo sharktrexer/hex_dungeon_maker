@@ -1,4 +1,5 @@
 extends Camera2D
+class_name CameraController
 
 var is_camera_panning: bool = false
 

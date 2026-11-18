@@ -4,6 +4,7 @@ extends Node
 @onready var editor := %EditingController as RoomEditor
 @onready var UI := %UI_Controller as UI_Controller
 @onready var file_manager := %FileController as FileController
+@onready var camera := %EditorCamera as Camera2D
 
 # consts
 const LAYER_NAMES :Array[String] = [
@@ -127,6 +128,8 @@ func init_geometry():
 	# Editing Overlay
 	'EditFiltersBtn' : open_filters_menu,
 
+	'CameraMoveBtn' : move_camera_to_data,
+
 	# Filter Menu
 	'ApplyFilterBtn' : apply_filters,
 
@@ -225,6 +228,18 @@ func open_room_select_menu():
 func open_dupe_name_popup():
 	UI.set_dupe_name_popup.open()
 
+
+#region Camera
+
+
+
+func move_camera_to_data():
+
+	var new_cam_pos = editor.get_first_valid_tile()
+	camera.focus_tile(new_cam_pos)
+
+
+
 #region Funcs
 
 ## updates saved rooms list UI
@@ -320,6 +335,7 @@ func create_blank_room():
 		editor.room_layers
 	)
 	file_manager.set_blank_data(blank_room_data)
+	camera.focus_tile(Vector2.ZERO)
 	print('now editing a blank room')
 	
 

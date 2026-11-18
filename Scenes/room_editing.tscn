@@ -73,7 +73,8 @@ script = ExtResource("6_ovspo")
 unique_name_in_owner = true
 script = ExtResource("4_u0dgt")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=615386656]
+[node name="EditorCamera" type="Camera2D" parent="." unique_id=615386656]
+unique_name_in_owner = true
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("2_l0fpw")
 
@@ -111,7 +112,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ebi1f")
-current_tab = 2
+current_tab = 1
 tabs_visible = false
 
 [node name="ConfirmationMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=521924319]
@@ -161,7 +162,6 @@ size_flags_horizontal = 3
 text = "ABORT"
 
 [node name="EditingHUD" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1855146340]
-visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m46tu")
@@ -426,6 +426,15 @@ size_flags_vertical = 8
 text = "Main Menu"
 expand_icon = true
 
+[node name="CameraMoveBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=266504073]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 32)
+custom_maximum_size = Vector2(-1, 32)
+layout_mode = 2
+size_flags_vertical = 8
+text = "I'M LOST"
+expand_icon = true
+
 [node name="ToolBarTabBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=1596880405]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
@@ -498,6 +507,7 @@ layout_mode = 2
 text = "Menu"
 
 [node name="RoomSelectMenu" type="PanelContainer" parent="EditorLayer/UI_Switcher" unique_id=1539163136]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -1040,7 +1050,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer" unique_id=1461551026]
-custom_minimum_size = Vector2(500, 400)
+custom_minimum_size = Vector2(600, 500)
 layout_mode = 2
 alignment = 1
 
@@ -1067,7 +1077,7 @@ vertical_alignment = 1
 
 [node name="DescEdit" type="TextEdit" parent="EditorLayer/UI_Switcher/RoomInfoMenu/PanelContainer/VBoxContainer" unique_id=964809498]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 85)
+custom_minimum_size = Vector2(400, 180)
 layout_mode = 2
 size_flags_horizontal = 4
 placeholder_text = "Let us know the deets of this hot cool ass room here is an example: blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"

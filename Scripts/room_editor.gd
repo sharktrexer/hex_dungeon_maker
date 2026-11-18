@@ -147,3 +147,12 @@ func set_layer_details(coords_dict: Dictionary):
 				int(layer_info[layer_name]['alt_id']),
 			)
 				
+func get_first_valid_tile() -> Vector2:
+	# looks thru all layers to find a valid cell vector
+	for layer_name in room_layers:
+		var layer_to_check := room_layers[layer_name]
+		var used_cells := layer_to_check.get_used_cells()
+		for cell in used_cells:
+			return layer_to_check.map_to_local(cell)
+
+	return Vector2.ZERO
