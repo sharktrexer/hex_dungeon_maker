@@ -23,7 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://8qi0lwd2frv" path="res://Graphics/UI_Elements/stage_icons/beach.png" id="17_ebi1f"]
 [ext_resource type="Texture2D" uid="uid://drcjx2sftkdaa" path="res://Graphics/UI_Elements/stage_icons/suzano.png" id="18_ovspo"]
 [ext_resource type="Texture2D" uid="uid://ct88sl67vv7ex" path="res://Graphics/UI_Elements/stage_icons/psych.png" id="22_b35yk"]
-[ext_resource type="Script" uid="uid://dl6acd3d3uuub" path="res://Scenes/confirm_new_name.gd" id="24_f6i3a"]
+[ext_resource type="Script" uid="uid://dl6acd3d3uuub" path="res://Scripts/confirm_new_name.gd" id="24_f6i3a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebi1f"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -419,6 +419,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_k4o0l")
 
 [node name="TempMenuBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=980074945]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(100, 32)
 custom_maximum_size = Vector2(-1, 32)
 layout_mode = 2
@@ -426,14 +427,15 @@ size_flags_vertical = 8
 text = "Main Menu"
 expand_icon = true
 
-[node name="CameraMoveBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=266504073]
+[node name="MapPosLab" type="Label" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=1562365550]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 32)
-custom_maximum_size = Vector2(-1, 32)
 layout_mode = 2
 size_flags_vertical = 8
-text = "I'M LOST"
-expand_icon = true
+theme_override_font_sizes/font_size = 19
+text = "(0,0)"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ToolBarTabBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer" unique_id=1596880405]
 unique_name_in_owner = true
@@ -485,21 +487,30 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="OtherButtsPanel" type="VBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer" unique_id=970145800]
-visible = false
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel" unique_id=43983968]
 layout_mode = 2
 
-[node name="SaveRoomBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel/HBoxContainer" unique_id=1418300311]
+[node name="QuickSaveBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel/HBoxContainer" unique_id=1418300311]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Save"
 
 [node name="ClearRoomBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel/HBoxContainer" unique_id=1188606271]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Clear"
+
+[node name="CameraMoveBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel" unique_id=266504073]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 32)
+custom_maximum_size = Vector2(-1, 32)
+layout_mode = 2
+size_flags_vertical = 8
+text = "I'M LOST"
+expand_icon = true
 
 [node name="MenuBtn" type="Button" parent="EditorLayer/UI_Switcher/EditingHUD/HBoxContainer/ToolBarPanel/VBoxContainer/OtherButtsPanel" unique_id=1833474776]
 unique_name_in_owner = true

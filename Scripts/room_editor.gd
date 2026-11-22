@@ -100,7 +100,7 @@ func grab_tiles():
 			# internal tile info
 			AVAIL_TILES.append(tile_info)
 
-## get map position from the layer being painted on
+## get map position of mouse from the layer being painted on
 func get_mouse_pos_as_map() -> Vector2i:
 	return painting_layer.local_to_map(painting_layer.get_local_mouse_position())
 

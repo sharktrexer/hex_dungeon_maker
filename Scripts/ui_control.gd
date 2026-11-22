@@ -45,13 +45,17 @@ const DEFAULT_ROOM_INFO := {
 @onready var tab_bar_btn : Button = %ToolBarTabBtn
 
 # temp to go back to editing ui state
-@onready var test_menu_btn := %TempMenuBtn as Button
 
 
 
 #region Editor UI
 @onready var tile_list:ItemList = %TestTiles
 
+@onready var quick_menu_btn := %MenuBtn as Button
+
+@onready var quick_save_btn := %QuickSaveBtn as Button
+
+@onready var map_pos_label := %MapPosLab as Label
 
 #endregion
 
@@ -218,7 +222,7 @@ func _ready() -> void:
 	tile_tab_btn.button_up.connect(toggle_control_visibility.bind(tile_select_ui))
 	tab_bar_btn.button_up.connect(toggle_control_visibility.bind(toolbar_ui))
 
-	test_menu_btn.button_up.connect(switch_tab.bind(MenuTab.Options))
+	quick_menu_btn.button_up.connect(switch_tab.bind(MenuTab.Options))
 	# END TEMP
 
 

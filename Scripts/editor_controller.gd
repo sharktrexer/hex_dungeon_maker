@@ -52,10 +52,16 @@ func _ready() -> void:
 	init_UI()
 	create_blank_room()
 
-#region Input
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 
+	process_UI()
+
+	handle_input()
+
+
+#region Input
+func handle_input():
 	if editor.is_painting:
 		if Input.is_action_pressed(ACTION_TILE_PAINT) :
 			editor.paint_tile()
@@ -130,6 +136,8 @@ func init_geometry():
 
 	'CameraMoveBtn' : move_camera_to_data,
 
+	'QuickSaveBtn' : save_room,
+
 	# Filter Menu
 	'ApplyFilterBtn' : apply_filters,
 
@@ -180,6 +188,11 @@ func init_UI():
 
 	update_displayed_saved_rooms()
 	connect_UI_signals()
+
+func process_UI():
+
+	UI.map_pos_label.text = str(editor.get_mouse_pos_as_map())
+
 	
 func connect_UI_signals():
 	UI.set_dupe_name_popup.input_submitted.connect(dupe_room)
@@ -259,7 +272,6 @@ func update_displayed_saved_rooms():
 func selected_a_saved_room(_item_index:int):
 	# get name from item list
 	var selected_room_name = UI.get_selected_room_name()
-	# update selected room display
 
 	var room_data = file_manager.get_room_data_and_img(selected_room_name)
 
@@ -269,6 +281,7 @@ func selected_a_saved_room(_item_index:int):
 	# TODO: get variants
 	var room_variants : Dictionary[String, Texture2D] = {}
 
+	# update selected room display
 	UI.set_selected_room_display(room_info_dict, room_data['img'], room_variants)
 
 
